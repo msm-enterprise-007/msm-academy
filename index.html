@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCNA Academy — Apprendre les réseaux de zéro</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#0d1117; --surface:#161b22; --surface2:#1c232b; --border:#2d3640;
+  --text:#e6edf3; --muted:#8b949e; --accent:#2dd4a7; --accent2:#58a6ff;
+  --danger:#f85149; --warn:#e3b341; --ok:#3fb950; --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.65;
+  font-size:15.5px;
+}
+/* ---------- HEADER ---------- */
+header{
+  position:sticky; top:0; z-index:100;
+  background:rgba(13,17,23,.92); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:14px;
+  padding:12px 20px;
+}
+.logo{
+  font-weight:800; font-size:19px; letter-spacing:-.5px;
+  display:flex; align-items:center; gap:9px;
+}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+header .tag{
+  font-size:11px;padding:3px 9px;border-radius:20px;
+  background:rgba(45,212,167,.12);color:var(--accent);
+  border:1px solid rgba(45,212,167,.3);font-weight:600;
+}
+.burger{
+  margin-left:auto;display:none;background:none;border:1px solid var(--border);
+  color:var(--text);font-size:19px;padding:4px 11px;border-radius:8px;cursor:pointer;
+}
+/* ---------- LAYOUT ---------- */
+.layout{display:flex;min-height:calc(100vh - 58px)}
+aside{
+  width:270px;flex-shrink:0;border-right:1px solid var(--border);
+  background:var(--surface); padding:18px 12px; overflow-y:auto;
+  position:sticky; top:58px; height:calc(100vh - 58px);
+}
+aside::-webkit-scrollbar{width:7px}
+aside::-webkit-scrollbar-thumb{background:var(--border);border-radius:5px}
+.nav-title{
+  font-size:10.5px;text-transform:uppercase;letter-spacing:1.4px;
+  color:var(--muted);font-weight:700;margin:16px 10px 7px;
+}
+.nav-title:first-child{margin-top:2px}
+.nav-btn{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+  padding:8px 11px;border-radius:8px;border:none;background:none;
+  color:var(--muted);font-size:13.6px;cursor:pointer;font-family:inherit;
+  transition:.15s;margin-bottom:2px;
+}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+.nav-btn.active{background:rgba(45,212,167,.13);color:var(--accent);font-weight:600}
+.nav-btn .ic{font-size:14px;width:19px;text-align:center;flex-shrink:0}
+.nav-btn .chk{margin-left:auto;font-size:11px;color:var(--ok);opacity:0;transition:.2s}
+.nav-btn.done .chk{opacity:1}
+main{flex:1;padding:34px 42px 90px;max-width:1000px;margin:0 auto;width:100%}
+.page{display:none;animation:fade .28s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+/* ---------- TYPO ---------- */
+h1{font-size:31px;font-weight:800;letter-spacing:-1px;margin-bottom:8px;
+   display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h1 i{color:var(--accent);font-size:26px}
+h1 .em{color:var(--accent)}
+h2{font-size:22px;margin:34px 0 13px;font-weight:700;
+   padding-bottom:8px;border-bottom:1px solid var(--border);letter-spacing:-.3px}
+h3{font-size:17px;margin:24px 0 9px;font-weight:700;color:var(--accent2)}
+p{margin-bottom:13px;color:#c9d4de}
+.lead{font-size:16.5px;color:var(--muted);margin-bottom:26px}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:6px;color:#c9d4de}
+strong{color:#fff;font-weight:600}
+code{
+  background:var(--surface2);padding:2px 6px;border-radius:5px;
+  font-family:'Consolas','Monaco',monospace;font-size:13px;
+  color:var(--accent);border:1px solid var(--border);
+}
+pre{
+  background:#0a0e13;border:1px solid var(--border);border-left:3px solid var(--accent);
+  border-radius:var(--radius);padding:15px 17px;overflow-x:auto;margin:14px 0;
+  font-family:'Consolas','Monaco',monospace;font-size:13px;line-height:1.6;color:#c9d4de;
+}
+pre code{background:none;border:none;padding:0;color:inherit}
+table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}
+th,td{border:1px solid var(--border);padding:9px 12px;text-align:left}
+th{background:var(--surface2);font-weight:700;color:var(--accent);font-size:12.5px;
+   text-transform:uppercase;letter-spacing:.6px}
+tr:nth-child(even) td{background:rgba(255,255,255,.017)}
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:19px 22px;margin:16px 0;
+}
+.card.note{border-left:3px solid var(--accent2)}
+.card.tip{border-left:3px solid var(--accent)}
+.card.warn{border-left:3px solid var(--warn)}
+.card .ct{font-weight:700;margin-bottom:7px;font-size:14px;display:flex;gap:9px;align-items:center}
+.card .ct i{font-size:15px}
+.card.note .ct{color:var(--accent2)}
+.card.tip .ct{color:var(--accent)}
+.card.warn .ct{color:var(--warn)}
+.card p:last-child,.card ul:last-child{margin-bottom:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:18px 0}
+.mini{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:15px 17px;transition:.2s;
+}
+.mini:hover{border-color:var(--accent);transform:translateY(-2px)}
+.mini h4{color:var(--accent);font-size:14px;margin-bottom:6px;
+  display:flex;align-items:center;gap:8px}
+.mini h4 i{font-size:13px}
+.mini p{font-size:13.3px;margin:0;color:var(--muted)}
+/* ---------- DETAILS / EXERCICES ---------- */
+details{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);margin:11px 0;overflow:hidden;
+}
+details[open]{border-color:rgba(45,212,167,.4)}
+summary{
+  padding:13px 18px;cursor:pointer;font-weight:600;font-size:14.2px;
+  list-style:none;display:flex;align-items:center;gap:10px;transition:.15s;
+}
+summary::-webkit-details-marker{display:none}
+summary::before{
+  content:'\f0da';font-family:"Font Awesome 6 Free";font-weight:900;
+  color:var(--accent);font-size:14px;transition:.2s;flex-shrink:0;
+}
+details[open] summary::before{transform:rotate(90deg)}
+summary:hover{background:var(--surface2)}
+summary .badge{
+  margin-left:auto;font-size:10.5px;padding:2px 9px;border-radius:20px;
+  background:rgba(88,166,255,.13);color:var(--accent2);font-weight:700;
+  border:1px solid rgba(88,166,255,.28);
+}
+.details-body{padding:4px 18px 18px;border-top:1px solid var(--border)}
+.details-body p:first-child{margin-top:14px}
+/* ---------- QUIZ ---------- */
+.quiz{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px;margin:20px 0;
+}
+.qhead{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:18px;padding-bottom:13px;border-bottom:1px solid var(--border);
+}
+.qhead h3{margin:0;font-size:16px;color:var(--accent);display:flex;align-items:center;gap:9px}
+.qhead h3 i{font-size:15px}
+.qscore{font-size:12.5px;color:var(--muted);font-weight:600}
+.q{margin-bottom:22px;padding-bottom:20px;border-bottom:1px dashed var(--border)}
+.q:last-of-type{border-bottom:none;padding-bottom:8px}
+.qtext{font-weight:600;margin-bottom:11px;font-size:14.6px;color:#fff;display:flex;gap:9px}
+.qnum{
+  background:rgba(45,212,167,.14);color:var(--accent);font-size:11.5px;
+  min-width:23px;height:23px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-weight:700;margin-top:2px;
+}
+.opt{
+  display:flex;align-items:flex-start;gap:10px;padding:9px 13px;
+  border:1px solid var(--border);border-radius:8px;margin-bottom:7px;
+  cursor:pointer;transition:.15s;font-size:14px;background:var(--surface2);
+}
+.opt:hover{border-color:var(--accent2);background:rgba(88,166,255,.06)}
+.opt input{margin-top:5px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.opt.correct{border-color:var(--ok);background:rgba(63,185,80,.11)}
+.opt.wrong{border-color:var(--danger);background:rgba(248,81,73,.11)}
+.opt.locked{cursor:default}
+.explain{
+  margin-top:9px;padding:11px 14px;border-radius:8px;font-size:13.3px;
+  background:rgba(88,166,255,.08);border-left:3px solid var(--accent2);
+  color:#c9d4de;display:none;
+}
+.explain.show{display:block;animation:fade .3s}
+.explain b{color:var(--accent2)}
+.explain b i{margin-right:5px}
+/* ---------- BUTTONS ---------- */
+.btn{
+  padding:10px 20px;border-radius:8px;border:none;cursor:pointer;
+  font-family:inherit;font-size:14px;font-weight:600;transition:.15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn i{font-size:13px}
+.btn.primary{background:var(--accent);color:#04211a}
+.btn.primary:hover{background:#3ee6bb;transform:translateY(-1px)}
+.btn.ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+/* ---------- RESULT ---------- */
+.result{
+  margin-top:18px;padding:18px 22px;border-radius:var(--radius);
+  display:none;border:1px solid var(--border);background:var(--surface2);
+}
+.result.show{display:block;animation:fade .35s}
+.result .big{font-size:32px;font-weight:800;letter-spacing:-1px}
+.result.pass .big{color:var(--ok)}
+.result.fail .big{color:var(--danger)}
+.result .msg{color:var(--muted);font-size:14px;margin-top:3px}
+.result .msg i{margin-right:5px}
+.bar{height:8px;background:var(--border);border-radius:5px;margin-top:13px;overflow:hidden}
+.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:5px;width:0;transition:width .8s ease}
+/* ---------- SUBNETTING ---------- */
+.subnet-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;margin:20px 0;
+}
+.subnet-given{
+  background:#0a0e13;border:1px solid var(--border);border-radius:9px;
+  padding:16px 20px;margin-bottom:20px;font-family:'Consolas',monospace;
+  font-size:19px;text-align:center;letter-spacing:1px;
+}
+.subnet-given .lbl{display:block;font-size:11px;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;font-family:inherit}
+.subnet-given .val{color:var(--accent);font-weight:700}
+.subnet-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.field input{
+  width:100%;padding:10px 13px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface2);color:var(--text);font-family:'Consolas',monospace;
+  font-size:14px;outline:none;transition:.15s;
+}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(45,212,167,.12)}
+.field input.good{border-color:var(--ok);background:rgba(63,185,80,.09)}
+.field input.bad{border-color:var(--danger);background:rgba(248,81,73,.09)}
+.feedback{margin-top:16px;font-size:14px;font-weight:600;min-height:22px;display:flex;align-items:center;gap:8px}
+.feedback i{font-size:15px}
+.feedback.ok{color:var(--ok)}
+.feedback.ko{color:var(--danger)}
+/* ---------- MISC ---------- */
+.pill{
+  display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;
+  background:var(--surface2);border:1px solid var(--border);color:var(--muted);
+  margin-right:6px;margin-bottom:6px;font-weight:600;
+}
+.toc{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+.toc a{
+  padding:11px 17px;background:var(--surface);border:1px solid var(--border);
+  border-radius:9px;color:var(--text);text-decoration:none;font-size:13.6px;
+  font-weight:600;transition:.18s;display:inline-flex;align-items:center;gap:9px;
+}
+.toc a i{color:var(--accent);font-size:13px}
+.toc a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+hr{border:none;border-top:1px solid var(--border);margin:30px 0}
+footer{
+  text-align:center;padding:26px;color:var(--muted);font-size:12.5px;
+  border-top:1px solid var(--border);margin-top:40px;
+}
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+  .burger{display:block}
+  aside{
+    position:fixed;left:0;top:58px;height:calc(100vh - 58px);
+    z-index:99;transform:translateX(-100%);transition:.28s;
+    box-shadow:6px 0 24px rgba(0,0,0,.5);
+  }
+  aside.open{transform:none}
+  main{padding:24px 18px 80px}
+  h1{font-size:25px}
+  h1 i{font-size:21px}
+  h2{font-size:19px}
+  pre{font-size:12px}
+}
+@media(max-width:500px){
+  header{padding:10px 13px}
+  .logo{font-size:16px}
+  header .tag{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="dot"></span>CCNA Academy</div>
+  <span class="tag">Réseaux · de zéro à certifié</span>
+  <button class="burger" id="burger"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<div class="layout">
+<aside id="sidebar">
+  <div class="nav-title">Démarrer</div>
+  <button class="nav-btn active" data-page="accueil"><span class="ic"><i class="fa-solid fa-house"></i></span>Accueil<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="bases"><span class="ic"><i class="fa-solid fa-globe"></i></span>1. Bases des réseaux<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+
+  <div class="nav-title">Adressage</div>
+  <button class="nav-btn" data-page="ip"><span class="ic"><i class="fa-solid fa-hashtag"></i></span>2. Adressage IPv4<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="subnet"><span class="ic"><i class="fa-solid fa-scissors"></i></span>3. Subnetting<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="ipv6"><span class="ic"><i class="fa-solid fa-arrow-up-right-dots"></i></span>4. IPv6<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+
+  <div class="nav-title">Configuration</div>
+  <button class="nav-btn" data-page="ios"><span class="ic"><i class="fa-solid fa-keyboard"></i></span>5. IOS Cisco<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="vlan"><span class="ic"><i class="fa-solid fa-tags"></i></span>6. VLAN & Trunk<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="routage"><span class="ic"><i class="fa-solid fa-road"></i></span>7. Routage<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="services"><span class="ic"><i class="fa-solid fa-gears"></i></span>8. Services réseau<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="securite"><span class="ic"><i class="fa-solid fa-lock"></i></span>9. Sécurité & ACL<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+
+  <div class="nav-title">Entraînement</div>
+  <button class="nav-btn" data-page="entrainement"><span class="ic"><i class="fa-solid fa-bullseye"></i></span>Générateur subnetting<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+  <button class="nav-btn" data-page="examens"><span class="ic"><i class="fa-solid fa-pen-to-square"></i></span>Examens blancs<span class="chk"><i class="fa-solid fa-check"></i></span></button>
+</aside>
+
+<main>
+
+<!-- ================= ACCUEIL ================= -->
+<section class="page active" id="accueil">
+  <h1>Bienvenue sur <span class="em">CCNA Academy</span></h1>
+  <p class="lead">Un parcours complet pour comprendre les réseaux informatiques depuis zéro, avec des cours clairs, des exercices corrigés et des examens blancs.</p>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-graduation-cap"></i> Comment utiliser ce site</div>
+    <p>Suis les modules <strong>dans l'ordre</strong> (1 → 9). Chaque module contient : un cours, des exemples, puis un quiz. À la fin, passe les <strong>examens blancs</strong>. Ne saute pas le subnetting : c'est la compétence la plus testée au CCNA.</p>
+  </div>
+
+  <h2>Le parcours</h2>
+  <div class="grid">
+    <div class="mini"><h4><i class="fa-solid fa-globe"></i> 1 · Bases des réseaux</h4><p>Modèle OSI, TCP/IP, encapsulation, Ethernet.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-hashtag"></i> 2 · Adressage IPv4</h4><p>Classes, masques, privé/public, calculs.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-scissors"></i> 3 · Subnetting</h4><p>Découper un réseau, VLSM, méthode rapide.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-arrow-up-right-dots"></i> 4 · IPv6</h4><p>Format, types d'adresses, coexistence.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-keyboard"></i> 5 · IOS Cisco</h4><p>Modes, commandes, sauvegarde config.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-tags"></i> 6 · VLAN & Trunk</h4><p>Segmentation, 802.1Q, router-on-a-stick.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-road"></i> 7 · Routage</h4><p>Table de routage, statique, OSPF.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-gears"></i> 8 · Services</h4><p>DHCP, DNS, NAT/PAT.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-lock"></i> 9 · Sécurité & ACL</h4><p>ACL standard/étendues, SSH, port security.</p></div>
+  </div>
+
+  <h2>Prêt ?</h2>
+  <div class="toc">
+    <a href="#" data-goto="bases"><i class="fa-solid fa-play"></i> Commencer le module 1</a>
+    <a href="#" data-goto="entrainement"><i class="fa-solid fa-bullseye"></i> M'entraîner au subnetting</a>
+    <a href="#" data-goto="examens"><i class="fa-solid fa-pen-to-square"></i> Passer un examen blanc</a>
+  </div>
+</section>
+
+<!-- ================= 1. BASES ================= -->
+<section class="page" id="bases">
+  <h1><i class="fa-solid fa-globe"></i> 1 · <span class="em">Bases des réseaux</span></h1>
+  <p class="lead">Comprendre ce qu'est un réseau, comment les données circulent, et les modèles de référence.</p>
+
+  <h2>Qu'est-ce qu'un réseau ?</h2>
+  <p>Un <strong>réseau informatique</strong> est un ensemble d'équipements (ordinateurs, serveurs, imprimantes, téléphones…) reliés entre eux pour <strong>partager des ressources</strong> et <strong>communiquer</strong>.</p>
+  <p>On distingue selon la taille :</p>
+  <table>
+    <tr><th>Type</th><th>Signification</th><th>Portée</th></tr>
+    <tr><td><strong>PAN</strong></td><td>Personal Area Network</td><td>Quelques mètres (Bluetooth)</td></tr>
+    <tr><td><strong>LAN</strong></td><td>Local Area Network</td><td>Un bâtiment, un campus</td></tr>
+    <tr><td><strong>MAN</strong></td><td>Metropolitan Area Network</td><td>Une ville</td></tr>
+    <tr><td><strong>WAN</strong></td><td>Wide Area Network</td><td>Un pays, le monde (Internet)</td></tr>
+  </table>
+
+  <h2>Le modèle OSI (7 couches)</h2>
+  <p>Le modèle <strong>OSI</strong> (Open Systems Interconnection) est un modèle théorique qui découpe la communication réseau en 7 couches. C'est LA référence pour comprendre et diagnostiquer.</p>
+  <table>
+    <tr><th>N°</th><th>Couche</th><th>Rôle</th><th>Exemples</th></tr>
+    <tr><td>7</td><td><strong>Application</strong></td><td>Interface avec l'utilisateur</td><td>HTTP, FTP, DNS, SMTP</td></tr>
+    <tr><td>6</td><td><strong>Présentation</strong></td><td>Format, chiffrement, compression</td><td>SSL/TLS, JPEG, ASCII</td></tr>
+    <tr><td>5</td><td><strong>Session</strong></td><td>Ouvre/ferme les sessions</td><td>NetBIOS, RPC</td></tr>
+    <tr><td>4</td><td><strong>Transport</strong></td><td>Fiabilité, segmentation, ports</td><td>TCP, UDP</td></tr>
+    <tr><td>3</td><td><strong>Réseau</strong></td><td>Adressage logique, routage</td><td>IP, ICMP, routeurs</td></tr>
+    <tr><td>2</td><td><strong>Liaison de données</strong></td><td>Adressage physique, trames</td><td>Ethernet, MAC, switch</td></tr>
+    <tr><td>1</td><td><strong>Physique</strong></td><td>Transmission des bits</td><td>Câbles, fibre, hub</td></tr>
+  </table>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-brain"></i> Mnémonique (de 7 à 1)</div>
+    <p><strong>P</strong>lease <strong>D</strong>o <strong>N</strong>ot <strong>T</strong>hrow <strong>S</strong>ausage <strong>P</strong>izza <strong>A</strong>way<br>
+    → <em>Physical, Data-link, Network, Transport, Session, Presentation, Application</em></p>
+  </div>
+
+  <h3>À retenir par cœur</h3>
+  <table>
+    <tr><th>Couche</th><th>Unité de données (PDU)</th><th>Équipement typique</th><th>Adresse utilisée</th></tr>
+    <tr><td>Transport</td><td>Segment</td><td>—</td><td>Port (80, 443…)</td></tr>
+    <tr><td>Réseau</td><td>Paquet</td><td>Routeur</td><td>IP</td></tr>
+    <tr><td>Liaison</td><td>Trame</td><td>Switch</td><td>MAC</td></tr>
+    <tr><td>Physique</td><td>Bit</td><td>Hub, répéteur</td><td>—</td></tr>
+  </table>
+
+  <h2>Le modèle TCP/IP (4 couches)</h2>
+  <p>C'est le modèle <strong>réellement utilisé</strong> sur Internet. Il condense OSI en 4 couches :</p>
+  <table>
+    <tr><th>TCP/IP</th><th>Correspond à OSI</th><th>Protocoles</th></tr>
+    <tr><td><strong>Application</strong></td><td>Application + Présentation + Session</td><td>HTTP, DNS, FTP, SMTP</td></tr>
+    <tr><td><strong>Transport</strong></td><td>Transport</td><td>TCP, UDP</td></tr>
+    <tr><td><strong>Internet</strong></td><td>Réseau</td><td>IP, ICMP, ARP</td></tr>
+    <tr><td><strong>Accès réseau</strong></td><td>Liaison + Physique</td><td>Ethernet, Wi-Fi</td></tr>
+  </table>
+
+  <h2>Encapsulation</h2>
+  <p>Quand tu envoies des données, chaque couche <strong>ajoute son en-tête</strong> (header) en descendant la pile. C'est l'<strong>encapsulation</strong>. À la réception, on fait l'inverse : la <strong>décapsulation</strong>.</p>
+<pre><code>Application   [  Données  ]
+Transport     [ TCP ][  Données  ]              → Segment
+Réseau        [ IP ][ TCP ][  Données  ]        → Paquet
+Liaison       [ ETH ][ IP ][ TCP ][ Données ][ FCS ]  → Trame
+Physique      1011010010110100...               → Bits</code></pre>
+
+  <h2>TCP vs UDP</h2>
+  <table>
+    <tr><th>Critère</th><th>TCP</th><th>UDP</th></tr>
+    <tr><td>Connexion</td><td>Oui (3-way handshake)</td><td>Non</td></tr>
+    <tr><td>Fiabilité</td><td>Très fiable (acquittements, retransmission)</td><td>Non fiable</td></tr>
+    <tr><td>Vitesse</td><td>Plus lent</td><td>Rapide</td></tr>
+    <tr><td>Usage</td><td>Web, mail, FTP, SSH</td><td>DNS, VoIP, streaming, jeux</td></tr>
+    <tr><td>En-tête</td><td>20 octets min.</td><td>8 octets</td></tr>
+  </table>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-handshake"></i> Le 3-way handshake TCP</div>
+    <p><strong>1.</strong> Client → Serveur : <code>SYN</code><br>
+       <strong>2.</strong> Serveur → Client : <code>SYN-ACK</code><br>
+       <strong>3.</strong> Client → Serveur : <code>ACK</code> → connexion établie</p>
+  </div>
+
+  <h2>Ports à connaître</h2>
+  <table>
+    <tr><th>Port</th><th>Protocole</th><th>Service</th></tr>
+    <tr><td>20 / 21</td><td>TCP</td><td>FTP (données / contrôle)</td></tr>
+    <tr><td>22</td><td>TCP</td><td>SSH</td></tr>
+    <tr><td>23</td><td>TCP</td><td>Telnet</td></tr>
+    <tr><td>25</td><td>TCP</td><td>SMTP</td></tr>
+    <tr><td>53</td><td>TCP/UDP</td><td>DNS</td></tr>
+    <tr><td>67 / 68</td><td>UDP</td><td>DHCP (serveur / client)</td></tr>
+    <tr><td>69</td><td>UDP</td><td>TFTP</td></tr>
+    <tr><td>80</td><td>TCP</td><td>HTTP</td></tr>
+    <tr><td>110</td><td>TCP</td><td>POP3</td></tr>
+    <tr><td>143</td><td>TCP</td><td>IMAP</td></tr>
+    <tr><td>161</td><td>UDP</td><td>SNMP</td></tr>
+    <tr><td>443</td><td>TCP</td><td>HTTPS</td></tr>
+  </table>
+
+  <h2>Ethernet et adresse MAC</h2>
+  <p>Une <strong>adresse MAC</strong> est une adresse physique de 48 bits, gravée sur la carte réseau, notée en hexadécimal : <code>00:1A:2B:3C:4D:5E</code>.</p>
+  <ul>
+    <li>Les <strong>3 premiers octets</strong> = OUI (constructeur)</li>
+    <li>Les <strong>3 derniers</strong> = numéro de série</li>
+  </ul>
+  <p>Types de trames Ethernet : <strong>Unicast</strong> (une destination), <strong>Broadcast</strong> (<code>FF:FF:FF:FF:FF:FF</code>), <strong>Multicast</strong>.</p>
+
+  <h2>Domaine de collision vs domaine de diffusion</h2>
+  <div class="grid">
+    <div class="mini"><h4><i class="fa-solid fa-bolt"></i> Domaine de collision</h4><p>Zone où deux machines peuvent entrer en collision. Le <strong>switch</strong> crée un domaine de collision par port. Le <strong>hub</strong> n'en crée qu'un seul pour tous.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-tower-broadcast"></i> Domaine de diffusion</h4><p>Zone atteinte par un broadcast. Le <strong>routeur</strong> (ou un VLAN) sépare les domaines de diffusion. Le switch ne les sépare pas.</p></div>
+  </div>
+
+  <hr>
+  <div class="quiz" id="quiz-bases"></div>
+</section>
+
+<!-- ================= 2. IPV4 ================= -->
+<section class="page" id="ip">
+  <h1><i class="fa-solid fa-hashtag"></i> 2 · <span class="em">Adressage IPv4</span></h1>
+  <p class="lead">L'adresse IP est le cœur du réseau. Maîtrise-la parfaitement.</p>
+
+  <h2>Structure d'une adresse IPv4</h2>
+  <p>Une adresse IPv4 fait <strong>32 bits</strong>, écrite en 4 octets séparés par des points (notation décimale pointée).</p>
+<pre><code>192  .  168  .   1   .   10
+11000000.10101000.00000001.00001010   → 32 bits</code></pre>
+  <p>Une adresse se compose de deux parties :</p>
+  <ul>
+    <li><strong>Partie réseau</strong> (Network) : identifie le réseau</li>
+    <li><strong>Partie hôte</strong> (Host) : identifie la machine dans ce réseau</li>
+  </ul>
+  <p>C'est le <strong>masque de sous-réseau</strong> qui détermine où s'arrête la partie réseau.</p>
+
+  <h2>Le masque de sous-réseau</h2>
+  <table>
+    <tr><th>CIDR</th><th>Masque décimal</th><th>Bits réseau</th><th>Bits hôte</th><th>Hôtes utilisables</th></tr>
+    <tr><td>/24</td><td>255.255.255.0</td><td>24</td><td>8</td><td>254</td></tr>
+    <tr><td>/25</td><td>255.255.255.128</td><td>25</td><td>7</td><td>126</td></tr>
+    <tr><td>/26</td><td>255.255.255.192</td><td>26</td><td>6</td><td>62</td></tr>
+    <tr><td>/27</td><td>255.255.255.224</td><td>27</td><td>5</td><td>30</td></tr>
+    <tr><td>/28</td><td>255.255.255.240</td><td>28</td><td>4</td><td>14</td></tr>
+    <tr><td>/29</td><td>255.255.255.248</td><td>29</td><td>3</td><td>6</td></tr>
+    <tr><td>/30</td><td>255.255.255.252</td><td>30</td><td>2</td><td>2</td></tr>
+  </table>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-ruler-combined"></i> Formule magique</div>
+    <p><strong>Nombre d'hôtes utilisables = 2<sup>(32 − CIDR)</sup> − 2</strong><br>
+    On retire 2 car : la 1ʳᵉ adresse = adresse réseau, la dernière = adresse de broadcast.</p>
+  </div>
+
+  <h2>Les classes d'adresses (historique)</h2>
+  <table>
+    <tr><th>Classe</th><th>1er octet</th><th>Masque par défaut</th><th>Usage</th></tr>
+    <tr><td>A</td><td>1 – 126</td><td>/8</td><td>Très grands réseaux</td></tr>
+    <tr><td>B</td><td>128 – 191</td><td>/16</td><td>Réseaux moyens</td></tr>
+    <tr><td>C</td><td>192 – 223</td><td>/24</td><td>Petits réseaux</td></tr>
+    <tr><td>D</td><td>224 – 239</td><td>—</td><td>Multicast</td></tr>
+    <tr><td>E</td><td>240 – 255</td><td>—</td><td>Expérimental</td></tr>
+  </table>
+  <p class="pill">127.0.0.1 = loopback (localhost)</p>
+
+  <h2>Adresses privées vs publiques</h2>
+  <p>Les adresses <strong>privées</strong> (RFC 1918) ne sont pas routables sur Internet. Elles sont utilisées dans les LAN et traduites par NAT.</p>
+  <table>
+    <tr><th>Classe</th><th>Plage privée</th><th>CIDR</th></tr>
+    <tr><td>A</td><td>10.0.0.0 – 10.255.255.255</td><td>10.0.0.0/8</td></tr>
+    <tr><td>B</td><td>172.16.0.0 – 172.31.255.255</td><td>172.16.0.0/12</td></tr>
+    <tr><td>C</td><td>192.168.0.0 – 192.168.255.255</td><td>192.168.0.0/16</td></tr>
+    <tr><td>APIPA</td><td>169.254.0.0 – 169.254.255.255</td><td>169.254.0.0/16</td></tr>
+  </table>
+  <div class="card warn">
+    <div class="ct"><i class="fa-solid fa-triangle-exclamation"></i> APIPA</div>
+    <p>Si une machine a une adresse en <code>169.254.x.x</code>, cela signifie qu'elle <strong>n'a pas trouvé de serveur DHCP</strong>. C'est un signe de panne à connaître absolument.</p>
+  </div>
+
+  <h2>Adresses spéciales</h2>
+  <table>
+    <tr><th>Adresse</th><th>Rôle</th></tr>
+    <tr><td>Adresse réseau</td><td>Tous les bits hôte à 0 (ex : 192.168.1.0)</td></tr>
+    <tr><td>Adresse de broadcast</td><td>Tous les bits hôte à 1 (ex : 192.168.1.255)</td></tr>
+    <tr><td>1ʳᵉ adresse utilisable</td><td>Adresse réseau + 1</td></tr>
+    <tr><td>Dernière adresse utilisable</td><td>Broadcast − 1</td></tr>
+    <tr><td>0.0.0.0</td><td>Route par défaut / "toute adresse"</td></tr>
+    <tr><td>255.255.255.255</td><td>Broadcast local limité</td></tr>
+  </table>
+
+  <h2>ARP — résolution d'adresse</h2>
+  <p><strong>ARP</strong> (Address Resolution Protocol) fait le lien entre une <strong>adresse IP</strong> et une <strong>adresse MAC</strong>.</p>
+  <ol>
+    <li>La machine veut joindre <code>192.168.1.20</code></li>
+    <li>Elle envoie un <strong>ARP Request</strong> en broadcast : « Qui a 192.168.1.20 ? »</li>
+    <li>La machine concernée répond en unicast : « C'est moi, voici ma MAC »</li>
+    <li>Le résultat est stocké dans le <strong>cache ARP</strong> (<code>arp -a</code>)</li>
+  </ol>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-thumbtack"></i> À retenir</div>
+    <p>Si la destination est <strong>sur le même réseau</strong> → ARP sur la destination.<br>
+       Si la destination est <strong>sur un autre réseau</strong> → ARP sur la <strong>passerelle par défaut</strong>.</p>
+  </div>
+
+  <hr>
+  <div class="quiz" id="quiz-ip"></div>
+</section>
+
+<!-- ================= 3. SUBNETTING ================= -->
+<section class="page" id="subnet">
+  <h1><i class="fa-solid fa-scissors"></i> 3 · <span class="em">Subnetting</span></h1>
+  <p class="lead">Découper un réseau en sous-réseaux. La compétence reine du CCNA.</p>
+
+  <h2>Pourquoi subdiviser ?</h2>
+  <ul>
+    <li><strong>Réduire</strong> le domaine de diffusion (moins de trafic parasite)</li>
+    <li><strong>Sécuriser</strong> (isoler les services)</li>
+    <li><strong>Optimiser</strong> l'utilisation des adresses</li>
+    <li><strong>Organiser</strong> (un sous-réseau par service/étage)</li>
+  </ul>
+
+  <h2>Méthode en 5 étapes</h2>
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-clipboard-list"></i> Procédure</div>
+    <ol>
+      <li>Identifier le <strong>CIDR</strong> et le masque</li>
+      <li>Calculer le <strong>pas</strong> (incrément) : <code>256 − dernier octet du masque</code></li>
+      <li>Lister les <strong>adresses réseau</strong> (multiples du pas)</li>
+      <li>Pour chaque sous-réseau : réseau = multiple du pas, broadcast = suivant − 1</li>
+      <li>Hôtes utilisables = entre les deux</li>
+    </ol>
+  </div>
+
+  <h3>Exemple complet : 192.168.1.0/26</h3>
+  <p><strong>Étape 1 —</strong> /26 → masque <code>255.255.255.192</code></p>
+  <p><strong>Étape 2 —</strong> Pas = 256 − 192 = <strong>64</strong></p>
+  <p><strong>Étape 3 —</strong> Sous-réseaux : 0, 64, 128, 192</p>
+  <table>
+    <tr><th>Sous-réseau</th><th>Adresse réseau</th><th>1ʳᵉ hôte</th><th>Dernière hôte</th><th>Broadcast</th></tr>
+    <tr><td>1</td><td>192.168.1.0</td><td>192.168.1.1</td><td>192.168.1.62</td><td>192.168.1.63</td></tr>
+    <tr><td>2</td><td>192.168.1.64</td><td>192.168.1.65</td><td>192.168.1.126</td><td>192.168.1.127</td></tr>
+    <tr><td>3</td><td>192.168.1.128</td><td>192.168.1.129</td><td>192.168.1.190</td><td>192.168.1.191</td></tr>
+    <tr><td>4</td><td>192.168.1.192</td><td>192.168.1.193</td><td>192.168.1.254</td><td>192.168.1.255</td></tr>
+  </table>
+  <p>Chaque sous-réseau offre <strong>62 hôtes</strong> utilisables (2⁶ − 2).</p>
+
+  <h2>La table des pas (à mémoriser)</h2>
+  <table>
+    <tr><th>CIDR</th><th>Masque (4ᵉ octet)</th><th>Pas</th><th>Hôtes</th></tr>
+    <tr><td>/25</td><td>128</td><td>128</td><td>126</td></tr>
+    <tr><td>/26</td><td>192</td><td>64</td><td>62</td></tr>
+    <tr><td>/27</td><td>224</td><td>32</td><td>30</td></tr>
+    <tr><td>/28</td><td>240</td><td>16</td><td>14</td></tr>
+    <tr><td>/29</td><td>248</td><td>8</td><td>6</td></tr>
+    <tr><td>/30</td><td>252</td><td>4</td><td>2</td></tr>
+  </table>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-bolt"></i> Astuce express</div>
+    <p>Pour trouver l'adresse réseau d'une IP comme <code>192.168.1.100/26</code> :<br>
+    Pas = 64 → multiples : 0, 64, 128, 192. Or 100 est entre 64 et 127 → <strong>réseau = 192.168.1.64</strong>, broadcast = <strong>192.168.1.127</strong>.</p>
+  </div>
+
+  <h2>VLSM (Variable Length Subnet Mask)</h2>
+  <p>Le VLSM permet d'utiliser <strong>différents masques</strong> dans un même réseau, pour ne pas gaspiller d'adresses. On attribue <strong>du plus grand besoin au plus petit</strong>.</p>
+  <p><strong>Exemple :</strong> réseau 192.168.1.0/24 à découper pour :</p>
+  <ul>
+    <li>Service A : 100 hôtes → /25 (126 hôtes) → 192.168.1.0/25</li>
+    <li>Service B : 50 hôtes → /26 (62 hôtes) → 192.168.1.128/26</li>
+    <li>Service C : 20 hôtes → /27 (30 hôtes) → 192.168.1.192/27</li>
+    <li>Liaison WAN : 2 hôtes → /30 → 192.168.1.224/30</li>
+  </ul>
+
+  <div class="card warn">
+    <div class="ct"><i class="fa-solid fa-triangle-exclamation"></i> Ordre obligatoire</div>
+    <p>En VLSM, on commence <strong>toujours</strong> par le sous-réseau qui a le plus grand besoin. Sinon on crée des trous et des chevauchements.</p>
+  </div>
+
+  <h2>Exercices corrigés</h2>
+
+  <details>
+    <summary>Exercice 1 — Analyser 172.16.5.130/25 <span class="badge">Facile</span></summary>
+    <div class="details-body">
+      <p><strong>Question :</strong> Donne l'adresse réseau, le broadcast, la plage d'hôtes et le nombre d'hôtes.</p>
+      <p><strong>Correction :</strong></p>
+      <p>Masque /25 = 255.255.255.128 → pas = 256 − 128 = <strong>128</strong></p>
+      <p>Multiples : 0, 128. Or 130 est entre 128 et 255.</p>
+      <ul>
+        <li>Adresse réseau : <code>172.16.5.128</code></li>
+        <li>Broadcast : <code>172.16.5.255</code></li>
+        <li>Plage d'hôtes : <code>172.16.5.129</code> → <code>172.16.5.254</code></li>
+        <li>Hôtes : 2⁷ − 2 = <strong>126</strong></li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Exercice 2 — Découper 192.168.10.0/24 en 6 sous-réseaux <span class="badge">Moyen</span></summary>
+    <div class="details-body">
+      <p><strong>Question :</strong> Quel masque faut-il ? Quels sont les sous-réseaux ?</p>
+      <p><strong>Correction :</strong></p>
+      <p>Il faut emprunter <em>n</em> bits tels que 2ⁿ ≥ 6 → 2³ = 8 ≥ 6, donc <strong>3 bits</strong>.</p>
+      <p>Nouveau CIDR = 24 + 3 = <strong>/27</strong> → masque <code>255.255.255.224</code></p>
+      <p>Pas = 256 − 224 = <strong>32</strong></p>
+      <table>
+        <tr><th>#</th><th>Réseau</th><th>Plage hôtes</th><th>Broadcast</th></tr>
+        <tr><td>1</td><td>192.168.10.0</td><td>.1 – .30</td><td>.31</td></tr>
+        <tr><td>2</td><td>192.168.10.32</td><td>.33 – .62</td><td>.63</td></tr>
+        <tr><td>3</td><td>192.168.10.64</td><td>.65 – .94</td><td>.95</td></tr>
+        <tr><td>4</td><td>192.168.10.96</td><td>.97 – .126</td><td>.127</td></tr>
+        <tr><td>5</td><td>192.168.10.128</td><td>.129 – .158</td><td>.159</td></tr>
+        <tr><td>6</td><td>192.168.10.160</td><td>.161 – .190</td><td>.191</td></tr>
+        <tr><td>7</td><td>192.168.10.192</td><td>.193 – .222</td><td>.223</td></tr>
+        <tr><td>8</td><td>192.168.10.224</td><td>.225 – .254</td><td>.255</td></tr>
+      </table>
+      <p>On obtient 8 sous-réseaux (dont 6 utilisés), de 30 hôtes chacun.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Exercice 3 — VLSM sur 10.0.0.0/24 <span class="badge">Difficile</span></summary>
+    <div class="details-body">
+      <p><strong>Énoncé :</strong> Réseau 10.0.0.0/24. Besoins :</p>
+      <ul><li>LAN A : 60 hôtes</li><li>LAN B : 28 hôtes</li><li>LAN C : 12 hôtes</li><li>Liaison série : 2 hôtes</li></ul>
+      <p><strong>Correction (du plus grand au plus petit) :</strong></p>
+      <table>
+        <tr><th>Besoin</th><th>Masque</th><th>Réseau</th><th>Plage</th><th>Broadcast</th></tr>
+        <tr><td>LAN A (60)</td><td>/26 (62 hôtes)</td><td>10.0.0.0/26</td><td>.1 – .62</td><td>.63</td></tr>
+        <tr><td>LAN B (28)</td><td>/27 (30 hôtes)</td><td>10.0.0.64/27</td><td>.65 – .94</td><td>.95</td></tr>
+        <tr><td>LAN C (12)</td><td>/28 (14 hôtes)</td><td>10.0.0.96/28</td><td>.97 – .110</td><td>.111</td></tr>
+        <tr><td>WAN (2)</td><td>/30 (2 hôtes)</td><td>10.0.0.112/30</td><td>.113 – .114</td><td>.115</td></tr>
+      </table>
+      <p>Il reste de la place de .116 à .255 pour d'autres besoins ou de la croissance.</p>
+    </div>
+  </details>
+
+  <hr>
+  <div class="quiz" id="quiz-subnet"></div>
+</section>
+
+<!-- ================= 4. IPV6 ================= -->
+<section class="page" id="ipv6">
+  <h1><i class="fa-solid fa-arrow-up-right-dots"></i> 4 · <span class="em">IPv6</span></h1>
+  <p class="lead">Le successeur d'IPv4. 128 bits au lieu de 32.</p>
+
+  <h2>Pourquoi IPv6 ?</h2>
+  <p>IPv4 ne dispose que de ~4,3 milliards d'adresses, épuisées depuis 2011. IPv6 offre <strong>3,4 × 10³⁸ adresses</strong> — assez pour attribuer une adresse à chaque grain de sable de la planète.</p>
+
+  <h2>Format d'une adresse IPv6</h2>
+  <p>128 bits, notés en <strong>8 groupes de 4 chiffres hexadécimaux</strong> séparés par <code>:</code>.</p>
+<pre><code>2001:0db8:0000:0000:0000:ff00:0042:8329</code></pre>
+
+  <h3>Règles de simplification</h3>
+  <ol>
+    <li>Supprimer les <strong>zéros en tête</strong> de chaque groupe :<br>
+      <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code> → <code>2001:db8:0:0:0:ff00:42:8329</code></li>
+    <li>Remplacer <strong>une seule</strong> séquence de groupes nuls par <code>::</code> :<br>
+      → <code>2001:db8::ff00:42:8329</code></li>
+  </ol>
+  <div class="card warn">
+    <div class="ct"><i class="fa-solid fa-triangle-exclamation"></i> Attention</div>
+    <p>On ne peut utiliser <code>::</code> qu'<strong>une seule fois</strong> par adresse, sinon on ne peut plus la reconstituer.</p>
+  </div>
+
+  <h2>Types d'adresses IPv6</h2>
+  <table>
+    <tr><th>Type</th><th>Préfixe</th><th>Rôle</th></tr>
+    <tr><td><strong>Global Unicast</strong></td><td>2000::/3</td><td>Équivalent public, routable sur Internet</td></tr>
+    <tr><td><strong>Link-Local</strong></td><td>FE80::/10</td><td>Communication locale sur le lien, auto-générée</td></tr>
+    <tr><td><strong>Unique Local</strong></td><td>FC00::/7</td><td>Équivalent des adresses privées</td></tr>
+    <tr><td><strong>Multicast</strong></td><td>FF00::/8</td><td>Diffusion à un groupe</td></tr>
+    <tr><td><strong>Anycast</strong></td><td>—</td><td>Le plus proche du groupe</td></tr>
+    <tr><td><strong>Loopback</strong></td><td>::1/128</td><td>Équivalent de 127.0.0.1</td></tr>
+  </table>
+  <p class="pill">Il n'y a plus de broadcast en IPv6</p>
+
+  <h2>EUI-64</h2>
+  <p>Méthode pour générer automatiquement la partie hôte à partir de la MAC :</p>
+  <ol>
+    <li>Prendre la MAC : <code>00:1A:2B:3C:4D:5E</code></li>
+    <li>Insérer <code>FF:FE</code> au milieu : <code>00:1A:2B:FF:FE:3C:4D:5E</code></li>
+    <li>Inverser le 7ᵉ bit du 1ᵉʳ octet (bit U/L) : <code>02:1A:2B:FF:FE:3C:4D:5E</code></li>
+  </ol>
+
+  <h2>Coexistence IPv4 / IPv6</h2>
+  <div class="grid">
+    <div class="mini"><h4><i class="fa-solid fa-layer-group"></i> Double pile</h4><p>L'équipement tourne en IPv4 <em>et</em> IPv6 simultanément. Solution la plus courante.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-tunnel"></i> Tunneling</h4><p>IPv6 encapsulé dans des paquets IPv4 pour traverser un réseau IPv4.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-right-left"></i> Traduction (NAT64)</h4><p>Conversion entre les deux protocoles à la frontière.</p></div>
+  </div>
+
+  <h2>Commandes IPv6 sur Cisco IOS</h2>
+<pre><code>Router(config)# ipv6 unicast-routing
+Router(config)# interface g0/0
+Router(config-if)# ipv6 address 2001:db8:1::1/64
+Router(config-if)# ipv6 address fe80::1 link-local
+Router# show ipv6 interface brief
+Router# show ipv6 route</code></pre>
+
+  <hr>
+  <div class="quiz" id="quiz-ipv6"></div>
+</section>
+
+<!-- ================= 5. IOS ================= -->
+<section class="page" id="ios">
+  <h1><i class="fa-solid fa-keyboard"></i> 5 · <span class="em">IOS Cisco</span></h1>
+  <p class="lead">Le système d'exploitation des équipements Cisco et ses modes.</p>
+
+  <h2>Les modes de l'IOS</h2>
+  <table>
+    <tr><th>Mode</th><th>Invite</th><th>Accès</th></tr>
+    <tr><td>Utilisateur</td><td><code>Router&gt;</code></td><td>Consultation limitée</td></tr>
+    <tr><td>Privilégié</td><td><code>Router#</code></td><td><code>enable</code></td></tr>
+    <tr><td>Configuration globale</td><td><code>Router(config)#</code></td><td><code>configure terminal</code></td></tr>
+    <tr><td>Config. interface</td><td><code>Router(config-if)#</code></td><td><code>interface g0/0</code></td></tr>
+    <tr><td>Config. ligne</td><td><code>Router(config-line)#</code></td><td><code>line console 0</code></td></tr>
+    <tr><td>Config. routeur</td><td><code>Router(config-router)#</code></td><td><code>router ospf 1</code></td></tr>
+  </table>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-arrow-left"></i> Sortir d'un mode</div>
+    <p><code>exit</code> → remonte d'un niveau<br>
+       <code>end</code> ou <code>Ctrl+Z</code> → retour direct au mode privilégié<br>
+       <code>disable</code> → retour au mode utilisateur</p>
+  </div>
+
+  <h2>Configuration de base complète</h2>
+<pre><code>Router&gt; enable
+Router# configure terminal
+Router(config)# hostname R1
+R1(config)# enable secret Cisco123
+R1(config)# service password-encryption
+R1(config)# banner motd #Acces interdit#
+
+R1(config)# line console 0
+R1(config-line)# password console123
+R1(config-line)# login
+R1(config-line)# exit
+
+R1(config)# line vty 0 4
+R1(config-line)# password telnet123
+R1(config-line)# login
+R1(config-line)# exit
+
+R1(config)# interface gigabitEthernet 0/0
+R1(config-if)# description Lien vers LAN
+R1(config-if)# ip address 192.168.1.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)# exit
+
+R1(config)# end
+R1# copy running-config startup-config</code></pre>
+
+  <h2>Commandes de vérification essentielles</h2>
+  <table>
+    <tr><th>Commande</th><th>Ce qu'elle montre</th></tr>
+    <tr><td><code>show running-config</code></td><td>Config active en RAM</td></tr>
+    <tr><td><code>show startup-config</code></td><td>Config sauvegardée en NVRAM</td></tr>
+    <tr><td><code>show ip interface brief</code></td><td>État et IP des interfaces (LA plus utile)</td></tr>
+    <tr><td><code>show interfaces</code></td><td>Statistiques détaillées</td></tr>
+    <tr><td><code>show ip route</code></td><td>Table de routage</td></tr>
+    <tr><td><code>show version</code></td><td>Version IOS, uptime, modèle</td></tr>
+    <tr><td><code>show mac address-table</code></td><td>Table MAC du switch</td></tr>
+    <tr><td><code>show vlan brief</code></td><td>Liste des VLAN</td></tr>
+    <tr><td><code>show cdp neighbors</code></td><td>Voisins Cisco découverts</td></tr>
+  </table>
+
+  <h2>Mémoire de l'équipement</h2>
+  <table>
+    <tr><th>Mémoire</th><th>Contenu</th><th>Volatile ?</th></tr>
+    <tr><td><strong>RAM</strong></td><td>running-config, table de routage</td><td>Oui (perdue à l'arrêt)</td></tr>
+    <tr><td><strong>NVRAM</strong></td><td>startup-config</td><td>Non</td></tr>
+    <tr><td><strong>Flash</strong></td><td>Image IOS</td><td>Non</td></tr>
+    <tr><td><strong>ROM</strong></td><td>Bootstrap, ROMMON</td><td>Non</td></tr>
+  </table>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-floppy-disk"></i> Sauvegarder</div>
+    <p><code>copy running-config startup-config</code> (ou <code>write memory</code>) copie la config de la RAM vers la NVRAM. À faire après <strong>chaque</strong> modification !</p>
+  </div>
+
+  <hr>
+  <div class="quiz" id="quiz-ios"></div>
+</section>
+
+<!-- ================= 6. VLAN ================= -->
+<section class="page" id="vlan">
+  <h1><i class="fa-solid fa-tags"></i> 6 · <span class="em">VLAN & Trunk</span></h1>
+  <p class="lead">Segmenter logiquement un switch physique.</p>
+
+  <h2>Qu'est-ce qu'un VLAN ?</h2>
+  <p>Un <strong>VLAN</strong> (Virtual LAN) est un réseau logique créé sur un ou plusieurs switches. Chaque VLAN = <strong>un domaine de diffusion distinct</strong>.</p>
+  <p><strong>Avantages :</strong></p>
+  <ul>
+    <li>Réduction du trafic broadcast</li>
+    <li>Sécurité (isolation des services)</li>
+    <li>Flexibilité (regroupement par fonction, pas par emplacement)</li>
+    <li>Réduction des coûts (moins de câblage)</li>
+  </ul>
+
+  <h2>VLAN par défaut</h2>
+  <table>
+    <tr><th>VLAN</th><th>Nom</th><th>Rôle</th></tr>
+    <tr><td>1</td><td>default</td><td>Tous les ports y sont par défaut</td></tr>
+    <tr><td>1002–1005</td><td>fddi, token-ring…</td><td>Réservés (anciens protocoles)</td></tr>
+    <tr><td>2–1001</td><td>—</td><td>VLAN normaux (utilisables)</td></tr>
+    <tr><td>1006–4094</td><td>—</td><td>VLAN étendus</td></tr>
+  </table>
+
+  <h2>Ports d'accès vs ports trunk</h2>
+  <div class="grid">
+    <div class="mini"><h4><i class="fa-solid fa-plug"></i> Port Access</h4><p>Appartient à <strong>un seul</strong> VLAN. Relie un PC, une imprimante, un serveur. La trame circule <strong>sans étiquette</strong>.</p></div>
+    <div class="mini"><h4><i class="fa-solid fa-link"></i> Port Trunk</h4><p>Transporte <strong>plusieurs</strong> VLAN. Relie switch↔switch ou switch↔routeur. Les trames sont <strong>étiquetées 802.1Q</strong>.</p></div>
+  </div>
+
+  <h2>802.1Q — l'étiquetage</h2>
+  <p>Le protocole <strong>802.1Q</strong> insère une étiquette de 4 octets dans la trame Ethernet, contenant l'<strong>ID du VLAN</strong> (12 bits → 4094 VLAN possibles).</p>
+  <p>Le <strong>VLAN natif</strong> (par défaut VLAN 1) circule <strong>sans étiquette</strong> sur le trunk.</p>
+
+  <h2>Configuration VLAN sur un switch</h2>
+<pre><code>Switch# configure terminal
+Switch(config)# vlan 10
+Switch(config-vlan)# name ADMIN
+Switch(config-vlan)# exit
+
+Switch(config)# vlan 20
+Switch(config-vlan)# name TECH
+Switch(config-vlan)# exit
+
+! Affecter un port à un VLAN
+Switch(config)# interface fa0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+Switch(config-if)# exit
+
+! Configurer un trunk
+Switch(config)# interface g0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk native vlan 99
+Switch(config-if)# switchport trunk allowed vlan 10,20,99
+Switch(config-if)# exit
+
+Switch# show vlan brief
+Switch# show interfaces trunk</code></pre>
+
+  <h2>Router-on-a-stick</h2>
+  <p>Un routeur avec <strong>une seule interface physique</strong> peut router entre plusieurs VLAN grâce à des <strong>sous-interfaces</strong>.</p>
+<pre><code>Router(config)# interface g0/0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+
+Router(config)# interface g0/0.10
+Router(config-subif)# encapsulation dot1Q 10
+Router(config-subif)# ip address 192.168.10.1 255.255.255.0
+Router(config-subif)# exit
+
+Router(config)# interface g0/0.20
+Router(config-subif)# encapsulation dot1Q 20
+Router(config-subif)# ip address 192.168.20.1 255.255.255.0
+Router(config-subif)# exit</code></pre>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-link"></i> Côté switch</div>
+    <p>Le port relié au routeur doit être en <strong>mode trunk</strong>, et le VLAN natif doit correspondre des deux côtés.</p>
+  </div>
+
+  <h2>VTP (VLAN Trunking Protocol)</h2>
+  <p>VTP permet de propager automatiquement la base VLAN entre switches. 3 modes :</p>
+  <table>
+    <tr><th>Mode</th><th>Peut créer/modifier</th><th>Propagation</th></tr>
+    <tr><td><strong>Server</strong></td><td>Oui</td><td>Envoie et reçoit</td></tr>
+    <tr><td><strong>Client</strong></td><td>Non</td><td>Reçoit</td></tr>
+    <tr><td><strong>Transparent</strong></td><td>Oui (localement)</td><td>Relaye sans appliquer</td></tr>
+  </table>
+  <div class="card warn">
+    <div class="ct"><i class="fa-solid fa-triangle-exclamation"></i> Danger du VTP</div>
+    <p>Un switch avec une révision VTP plus élevée peut <strong>écraser</strong> la base VLAN de tout le domaine. Toujours vérifier le numéro de révision avant d'introduire un switch.</p>
+  </div>
+
+  <hr>
+  <div class="quiz" id="quiz-vlan"></div>
+</section>
+
+<!-- ================= 7. ROUTAGE ================= -->
+<section class="page" id="routage">
+  <h1><i class="fa-solid fa-road"></i> 7 · <span class="em">Routage</span></h1>
+  <p class="lead">Comment les paquets trouvent leur chemin d'un réseau à l'autre.</p>
+
+  <h2>Le rôle du routeur</h2>
+  <p>Un routeur relie des réseaux différents. Il consulte sa <strong>table de routage</strong> pour chaque paquet et choisit la meilleure route selon :</p>
+  <ol>
+    <li>La <strong>correspondance la plus longue</strong> (longest prefix match)</li>
+    <li>La <strong>distance administrative</strong> (AD) — plus basse = plus fiable</li>
+    <li>La <strong>métrique</strong> du protocole</li>
+  </ol>
+
+  <h2>Distance administrative (AD)</h2>
+  <table>
+    <tr><th>Source de route</th><th>AD</th></tr>
+    <tr><td>Connectée directement</td><td>0</td></tr>
+    <tr><td>Route statique</td><td>1</td></tr>
+    <tr><td>EIGRP (interne)</td><td>90</td></tr>
+    <tr><td>OSPF</td><td>110</td></tr>
+    <tr><td>RIP</td><td>120</td></tr>
+    <tr><td>EIGRP (externe)</td><td>170</td></tr>
+  </table>
+
+  <h2>Table de routage — lecture</h2>
+<pre><code>R1# show ip route
+Codes: C - connected, S - static, O - OSPF, R - RIP
+
+     192.168.1.0/24 is variably subnetted
+C    192.168.1.0/24 is directly connected, GigabitEthernet0/0
+S    10.0.0.0/8 [1/0] via 192.168.1.254
+O    172.16.0.0/16 [110/2] via 192.168.1.2, 00:12:44, GigabitEthernet0/1
+S*   0.0.0.0/0 [1/0] via 192.168.1.254</code></pre>
+  <ul>
+    <li><code>C</code> = connecté directement</li>
+    <li><code>S</code> = statique, <code>S*</code> = route par défaut</li>
+    <li><code>O</code> = apprise par OSPF</li>
+    <li><code>[110/2]</code> = [AD/métrique]</li>
+  </ul>
+
+  <h2>Routage statique</h2>
+<pre><code>! Route vers un réseau précis
+Router(config)# ip route 192.168.2.0 255.255.255.0 10.0.0.2
+
+! Route par défaut (vers Internet)
+Router(config)# ip route 0.0.0.0 0.0.0.0 10.0.0.2
+
+! Route statique via une interface de sortie
+Router(config)# ip route 192.168.3.0 255.255.255.0 g0/1</code></pre>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-circle-check"></i> Quand utiliser du statique ?</div>
+    <p>Petits réseaux, liens WAN stables, route par défaut vers le FAI. Avantages : pas de CPU, pas de bande passante, sécurisé. Inconvénient : pas d'adaptation automatique en cas de panne.</p>
+  </div>
+
+  <h2>Routage dynamique — OSPF</h2>
+  <p><strong>OSPF</strong> (Open Shortest Path First) est un protocole à <strong>état de liens</strong> utilisant l'algorithme <strong>Dijkstra</strong> (SPF). C'est le plus utilisé en entreprise.</p>
+  <p><strong>Caractéristiques :</strong></p>
+  <ul>
+    <li>Standard ouvert (pas propriétaire Cisco)</li>
+    <li>Métrique = <strong>coût</strong> basé sur la bande passante</li>
+    <li>Convergence rapide</li>
+    <li>Utilise des <strong>aires</strong> (areas) — l'aire 0 est la dorsale</li>
+    <li>Diffusion par multicast 224.0.0.5 et 224.0.0.6</li>
+  </ul>
+
+  <h3>Configuration OSPF simple</h3>
+<pre><code>Router(config)# router ospf 1
+Router(config-router)# router-id 1.1.1.1
+Router(config-router)# network 192.168.1.0 0.0.0.255 area 0
+Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
+Router(config-router)# exit
+
+! Vérification
+Router# show ip ospf neighbor
+Router# show ip ospf interface brief
+Router# show ip route ospf</code></pre>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-rotate"></i> Wildcard mask</div>
+    <p>OSPF utilise un <strong>masque générique (wildcard)</strong> = inverse du masque.<br>
+    /24 → <code>0.0.0.255</code> &nbsp;|&nbsp; /30 → <code>0.0.0.3</code> &nbsp;|&nbsp; /16 → <code>0.0.255.255</code></p>
+  </div>
+
+  <h2>RIP vs OSPF vs EIGRP</h2>
+  <table>
+    <tr><th>Critère</th><th>RIP v2</th><th>OSPF</th><th>EIGRP</th></tr>
+    <tr><td>Type</td><td>Vecteur de distance</td><td>État de liens</td><td>Hybride</td></tr>
+    <tr><td>Métrique</td><td>Sauts (max 15)</td><td>Coût (bande passante)</td><td>Bande passante + délai</td></tr>
+    <tr><td>AD</td><td>120</td><td>110</td><td>90</td></tr>
+    <tr><td>Standard</td><td>Ouvert</td><td>Ouvert</td><td>Cisco (ouvert depuis 2013)</td></tr>
+    <tr><td>Convergence</td><td>Lente</td><td>Rapide</td><td>Très rapide</td></tr>
+  </table>
+
+  <hr>
+  <div class="quiz" id="quiz-routage"></div>
+</section>
+
+<!-- ================= 8. SERVICES ================= -->
+<section class="page" id="services">
+  <h1><i class="fa-solid fa-gears"></i> 8 · <span class="em">Services réseau</span></h1>
+  <p class="lead">DHCP, DNS, NAT — les services indispensables.</p>
+
+  <h2>DHCP</h2>
+  <p><strong>DHCP</strong> (Dynamic Host Configuration Protocol) attribue automatiquement une configuration IP aux machines. Port UDP <strong>67</strong> (serveur) et <strong>68</strong> (client).</p>
+
+  <h3>Les 4 étapes — DORA</h3>
+  <table>
+    <tr><th>Étape</th><th>Message</th><th>Direction</th><th>Type</th></tr>
+    <tr><td>1</td><td><strong>D</strong>iscover</td><td>Client → Broadcast</td><td>« Y a-t-il un serveur DHCP ? »</td></tr>
+    <tr><td>2</td><td><strong>O</strong>ffer</td><td>Serveur → Client</td><td>Proposition d'adresse</td></tr>
+    <tr><td>3</td><td><strong>R</strong>equest</td><td>Client → Broadcast</td><td>« J'accepte cette offre »</td></tr>
+    <tr><td>4</td><td><strong>A</strong>ck</td><td>Serveur → Client</td><td>Confirmation + masque, passerelle, DNS</td></tr>
+  </table>
+
+  <h3>Configuration DHCP sur routeur Cisco</h3>
+<pre><code>Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+Router(config)# ip dhcp pool LAN1
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0
+Router(dhcp-config)# default-router 192.168.1.1
+Router(dhcp-config)# dns-server 8.8.8.8
+Router(dhcp-config)# lease 7
+Router(dhcp-config)# exit</code></pre>
+
+  <h2>DNS</h2>
+  <p><strong>DNS</strong> (Domain Name System) traduit les noms de domaine en adresses IP. Port <strong>53</strong> UDP (requêtes) et TCP (transferts de zone).</p>
+  <table>
+    <tr><th>Type d'enregistrement</th><th>Rôle</th></tr>
+    <tr><td><strong>A</strong></td><td>Nom → IPv4</td></tr>
+    <tr><td><strong>AAAA</strong></td><td>Nom → IPv6</td></tr>
+    <tr><td><strong>CNAME</strong></td><td>Alias vers un autre nom</td></tr>
+    <tr><td><strong>MX</strong></td><td>Serveur de messagerie</td></tr>
+    <tr><td><strong>NS</strong></td><td>Serveur de noms autoritaire</td></tr>
+    <tr><td><strong>PTR</strong></td><td>IP → Nom (inverse)</td></tr>
+  </table>
+  <p>Commande de test : <code>nslookup google.com</code> ou <code>ipconfig /displaydns</code></p>
+
+  <h2>NAT / PAT</h2>
+  <p><strong>NAT</strong> (Network Address Translation) traduit les adresses privées en adresses publiques.</p>
+  <table>
+    <tr><th>Type</th><th>Principe</th></tr>
+    <tr><td><strong>NAT statique</strong></td><td>1 IP privée ↔ 1 IP publique (fixe)</td></tr>
+    <tr><td><strong>NAT dynamique</strong></td><td>Pool d'IP publiques attribuées à la demande</td></tr>
+    <tr><td><strong>PAT (NAT overload)</strong></td><td>Plusieurs IP privées ↔ 1 IP publique, différenciées par les <strong>ports</strong></td></tr>
+  </table>
+
+  <h3>Terminologie NAT</h3>
+  <ul>
+    <li><strong>Inside local</strong> : IP privée de la machine interne</li>
+    <li><strong>Inside global</strong> : IP publique vue de l'extérieur</li>
+    <li><strong>Outside local/global</strong> : équivalents pour l'extérieur</li>
+  </ul>
+
+  <h3>Configuration PAT (la plus courante)</h3>
+<pre><code>Router(config)# interface g0/1
+Router(config-if)# ip nat outside
+Router(config-if)# exit
+
+Router(config)# interface g0/0
+Router(config-if)# ip nat inside
+Router(config-if)# exit
+
+Router(config)# access-list 1 permit 192.168.1.0 0.0.0.255
+Router(config)# ip nat inside source list 1 interface g0/1 overload
+
+! Vérification
+Router# show ip nat translations
+Router# show ip nat statistics</code></pre>
+
+  <h3>NAT statique</h3>
+<pre><code>Router(config)# ip nat inside source static 192.168.1.10 203.0.113.10</code></pre>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-lightbulb"></i> Pourquoi le PAT ?</div>
+    <p>Une seule adresse publique peut supporter <strong>plus de 65 000</strong> connexions simultanées grâce aux numéros de port. C'est ce qui a permis de retarder l'épuisement d'IPv4.</p>
+  </div>
+
+  <h2>Autres services utiles</h2>
+  <table>
+    <tr><th>Service</th><th>Rôle</th><th>Port</th></tr>
+    <tr><td>NTP</td><td>Synchronisation de l'heure</td><td>123 UDP</td></tr>
+    <tr><td>Syslog</td><td>Journalisation centralisée</td><td>514 UDP</td></tr>
+    <tr><td>SNMP</td><td>Supervision réseau</td><td>161 UDP</td></tr>
+    <tr><td>TFTP</td><td>Transfert de fichiers léger</td><td>69 UDP</td></tr>
+    <tr><td>FTP</td><td>Transfert de fichiers</td><td>20/21 TCP</td></tr>
+  </table>
+
+  <hr>
+  <div class="quiz" id="quiz-services"></div>
+</section>
+
+<!-- ================= 9. SECURITE ================= -->
+<section class="page" id="securite">
+  <h1><i class="fa-solid fa-lock"></i> 9 · <span class="em">Sécurité & ACL</span></h1>
+  <p class="lead">Filtrer le trafic et durcir les équipements.</p>
+
+  <h2>Les ACL — Access Control Lists</h2>
+  <p>Une <strong>ACL</strong> est une liste de règles qui autorisent ou refusent le trafic. Elles se lisent <strong>de haut en bas</strong> et s'arrêtent à la première correspondance.</p>
+
+  <div class="card warn">
+    <div class="ct"><i class="fa-solid fa-triangle-exclamation"></i> Règle d'or</div>
+    <p>À la fin de toute ACL, il y a un <strong>deny any implicite</strong> invisible. Si tu ne termines pas par un <code>permit</code>, tout le reste est bloqué !</p>
+  </div>
+
+  <h2>ACL standard vs étendue</h2>
+  <table>
+    <tr><th>Critère</th><th>Standard</th><th>Étendue</th></tr>
+    <tr><td>Numéros</td><td>1–99, 1300–1999</td><td>100–199, 2000–2699</td></tr>
+    <tr><td>Filtre sur</td><td>IP source uniquement</td><td>Source, destination, protocole, ports</td></tr>
+    <tr><td>Emplacement</td><td>Au plus près de la <strong>destination</strong></td><td>Au plus près de la <strong>source</strong></td></tr>
+  </table>
+
+  <h3>ACL standard</h3>
+<pre><code>Router(config)# access-list 10 permit 192.168.1.0 0.0.0.255
+Router(config)# access-list 10 deny any
+
+Router(config)# interface g0/0
+Router(config-if)# ip access-group 10 in</code></pre>
+
+  <h3>ACL étendue</h3>
+<pre><code>! Autoriser le web (HTTP/HTTPS) vers le serveur 10.1.1.5
+Router(config)# access-list 100 permit tcp 192.168.1.0 0.0.0.255 host 10.1.1.5 eq 80
+Router(config)# access-list 100 permit tcp 192.168.1.0 0.0.0.255 host 10.1.1.5 eq 443
+Router(config)# access-list 100 permit tcp any any established
+Router(config)# access-list 100 deny ip any any
+
+Router(config)# interface g0/1
+Router(config-if)# ip access-group 100 in</code></pre>
+
+  <h3>ACL nommée (plus lisible)</h3>
+<pre><code>Router(config)# ip access-list extended BLOQUE_TELNET
+Router(config-ext-nacl)# deny tcp any any eq 23
+Router(config-ext-nacl)# permit ip any any
+Router(config-ext-nacl)# exit</code></pre>
+
+  <h2>Masque générique (wildcard)</h2>
+  <table>
+    <tr><th>Masque</th><th>Wildcard</th><th>Signification</th></tr>
+    <tr><td>/24</td><td>0.0.0.255</td><td>Réseau entier</td></tr>
+    <tr><td>/30</td><td>0.0.0.3</td><td>4 adresses</td></tr>
+    <tr><td>/32</td><td>0.0.0.0</td><td>Une seule adresse (host)</td></tr>
+    <tr><td>any</td><td>255.255.255.255</td><td>Toutes les adresses</td></tr>
+  </table>
+
+  <h2>Sécurité des ports de switch</h2>
+<pre><code>Switch(config)# interface fa0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security maximum 2
+Switch(config-if)# switchport port-security mac-address sticky
+Switch(config-if)# switchport port-security violation shutdown
+Switch(config-if)# exit
+
+Switch# show port-security interface fa0/1</code></pre>
+  <p><strong>Modes de violation :</strong></p>
+  <ul>
+    <li><code>shutdown</code> (défaut) : port désactivé, err-disabled</li>
+    <li><code>restrict</code> : paquets droppés, log + compteur</li>
+    <li><code>protect</code> : paquets droppés silencieusement</li>
+  </ul>
+
+  <h2>Sécuriser l'accès à distance : SSH plutôt que Telnet</h2>
+<pre><code>Router(config)# hostname R1
+R1(config)# ip domain-name monreseau.local
+R1(config)# crypto key generate rsa modulus 1024
+R1(config)# username admin privilege 15 secret Admin123
+R1(config)# ip ssh version 2
+
+R1(config)# line vty 0 4
+R1(config-line)# transport input ssh
+R1(config-line)# login local
+R1(config-line)# exit</code></pre>
+
+  <h2>Attaques courantes et parades</h2>
+  <table>
+    <tr><th>Attaque</th><th>Description</th><th>Parade</th></tr>
+    <tr><td>MAC Flooding</td><td>Saturer la table MAC du switch</td><td>Port security</td></tr>
+    <tr><td>DHCP Spoofing</td><td>Faux serveur DHCP</td><td>DHCP Snooping</td></tr>
+    <tr><td>ARP Spoofing</td><td>Fausses réponses ARP (MITM)</td><td>Dynamic ARP Inspection</td></tr>
+    <tr><td>VLAN Hopping</td><td>Passer d'un VLAN à l'autre</td><td>Désactiver DTP, changer VLAN natif</td></tr>
+    <tr><td>STP Attack</td><td>Devenir root bridge</td><td>BPDU Guard, Root Guard</td></tr>
+    <tr><td>Brute force SSH</td><td>Deviner les mots de passe</td><td>Mots de passe forts, ACL, AAA</td></tr>
+  </table>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-shield-halved"></i> Bonnes pratiques minimales</div>
+    <ul>
+      <li><code>enable secret</code> (jamais <code>enable password</code>)</li>
+      <li><code>service password-encryption</code></li>
+      <li>SSH uniquement, Telnet désactivé</li>
+      <li>Bannière d'avertissement légale</li>
+      <li>Désactiver les ports inutilisés et les mettre dans un VLAN poubelle</li>
+      <li>Sauvegarder régulièrement la configuration</li>
+    </ul>
+  </div>
+
+  <hr>
+  <div class="quiz" id="quiz-securite"></div>
+</section>
+
+<!-- ================= ENTRAINEMENT ================= -->
+<section class="page" id="entrainement">
+  <h1><i class="fa-solid fa-bullseye"></i> <span class="em">Générateur de subnetting</span></h1>
+  <p class="lead">Un exercice aléatoire à l'infini. Calcule puis vérifie ta réponse.</p>
+
+  <div class="subnet-box">
+    <div class="subnet-given">
+      <span class="lbl">Adresse IP / CIDR</span>
+      <span class="val" id="sub-ip">—</span>
+    </div>
+
+    <div class="subnet-fields">
+      <div class="field">
+        <label>Adresse réseau</label>
+        <input type="text" id="sub-net" placeholder="ex: 192.168.1.0" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Adresse de broadcast</label>
+        <input type="text" id="sub-bc" placeholder="ex: 192.168.1.255" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Première adresse utilisable</label>
+        <input type="text" id="sub-first" placeholder="ex: 192.168.1.1" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Dernière adresse utilisable</label>
+        <input type="text" id="sub-last" placeholder="ex: 192.168.1.254" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Nombre d'hôtes utilisables</label>
+        <input type="text" id="sub-hosts" placeholder="ex: 254" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Masque décimal</label>
+        <input type="text" id="sub-mask" placeholder="ex: 255.255.255.0" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn primary" id="sub-check"><i class="fa-solid fa-circle-check"></i> Vérifier</button>
+      <button class="btn ghost" id="sub-new"><i class="fa-solid fa-rotate"></i> Nouvel exercice</button>
+      <button class="btn ghost" id="sub-reveal"><i class="fa-solid fa-eye"></i> Voir la solution</button>
+    </div>
+    <div class="feedback" id="sub-feedback"></div>
+  </div>
+
+  <div class="card note">
+    <div class="ct"><i class="fa-solid fa-book-open"></i> Rappel de méthode</div>
+    <p>Pas = 256 − (dernier octet du masque). Les adresses réseau sont les multiples du pas. Broadcast = réseau suivant − 1. Hôtes = 2<sup>bits hôte</sup> − 2.</p>
+  </div>
+</section>
+
+<!-- ================= EXAMENS ================= -->
+<section class="page" id="examens">
+  <h1><i class="fa-solid fa-pen-to-square"></i> <span class="em">Examens blancs</span></h1>
+  <p class="lead">20 questions tirées au hasard parmi tout le programme. Seuil de réussite : 80 %.</p>
+
+  <div class="card tip">
+    <div class="ct"><i class="fa-solid fa-circle-info"></i> Déroulement</div>
+    <p>Réponds à toutes les questions puis clique sur <strong>Valider l'examen</strong>. Tu verras ton score, les bonnes réponses et les explications. Un nouvel examen tirera de nouvelles questions.</p>
+  </div>
+
+  <div class="btnrow" style="margin-bottom:6px">
+    <button class="btn primary" id="exam-start"><i class="fa-solid fa-rocket"></i> Nouvel examen</button>
+    <button class="btn ghost" id="exam-reset"><i class="fa-solid fa-rotate-left"></i> Réinitialiser</button>
+  </div>
+
+  <div id="exam-container"></div>
+</section>
+
+<footer>
+  CCNA Academy — Support pédagogique libre pour l'apprentissage des réseaux.<br>
+  Progression sauvegardée localement dans ton navigateur.
+</footer>
+
+</main>
+</div>
+
+<script>
+/* =========================================================
+   DONNÉES DES QUIZ
+   ========================================================= */
+const QUIZZES = {
+  bases: [
+    {q:"Combien de couches compte le modèle OSI ?",o:["4","5","6","7"],a:3,
+     e:"Le modèle OSI compte 7 couches : Physique, Liaison, Réseau, Transport, Session, Présentation, Application."},
+    {q:"À quelle couche OSI travaille un routeur ?",o:["Couche 1","Couche 2","Couche 3","Couche 4"],a:2,
+     e:"Le routeur travaille à la couche 3 (Réseau), où il prend ses décisions sur les adresses IP."},
+    {q:"Quel est le PDU de la couche Réseau ?",o:["Trame","Paquet","Segment","Bit"],a:1,
+     e:"Couche Réseau = paquet. Liaison = trame, Transport = segment, Physique = bit."},
+    {q:"Quel protocole est orienté connexion et fiable ?",o:["UDP","IP","TCP","ICMP"],a:2,
+     e:"TCP établit une connexion (3-way handshake), acquitte et retransmet. UDP est non fiable."},
+    {q:"Quel port utilise HTTPS ?",o:["80","443","22","8080"],a:1,
+     e:"HTTPS utilise le port TCP 443. HTTP utilise le 80."},
+    {q:"Qu'est-ce qu'un domaine de diffusion ?",o:["Une zone où les collisions sont possibles","Une zone atteinte par un broadcast","Un câble unique","Un VLAN trunk"],a:1,
+     e:"Le domaine de diffusion est la zone atteinte par une trame de broadcast. Un routeur le délimite."},
+    {q:"Quelle couche OSI gère le chiffrement et le format des données ?",o:["Session","Présentation","Application","Transport"],a:1,
+     e:"La couche Présentation (6) gère le format, la compression et le chiffrement (ex : TLS, JPEG)."},
+    {q:"Le 3-way handshake TCP se déroule dans quel ordre ?",o:["ACK, SYN, SYN-ACK","SYN, SYN-ACK, ACK","SYN, ACK, SYN-ACK","SYN-ACK, SYN, ACK"],a:1,
+     e:"Client envoie SYN → serveur répond SYN-ACK → client confirme par ACK."},
+    {q:"Quel équipement crée un domaine de collision par port ?",o:["Hub","Répéteur","Switch","Modem"],a:2,
+     e:"Le switch crée un domaine de collision par port (micro-segmentation). Le hub n'en crée qu'un seul."},
+    {q:"Quel protocole résout une adresse IP en adresse MAC ?",o:["DNS","DHCP","ARP","ICMP"],a:2,
+     e:"ARP (Address Resolution Protocol) associe une IP à une MAC sur le réseau local."}
+  ],
+  ip: [
+    {q:"Combien de bits compose une adresse IPv4 ?",o:["16","32","64","128"],a:1,
+     e:"Une adresse IPv4 fait 32 bits, soit 4 octets."},
+    {q:"Quelle est la plage d'adresses privées de classe A ?",o:["192.168.0.0/16","172.16.0.0/12","10.0.0.0/8","169.254.0.0/16"],a:2,
+     e:"10.0.0.0/8 est la plage privée de classe A (RFC 1918)."},
+    {q:"Quel masque correspond à un /26 ?",o:["255.255.255.192","255.255.255.224","255.255.255.128","255.255.255.240"],a:0,
+     e:"/26 = 255.255.255.192. Le pas est de 256 − 192 = 64."},
+    {q:"Combien d'hôtes utilisables dans un /28 ?",o:["16","14","30","62"],a:1,
+     e:"/28 → 4 bits hôte → 2⁴ − 2 = 14 hôtes utilisables."},
+    {q:"Une machine a l'adresse 169.254.10.5. Que signifie-t-il ?",o:["Elle est sur Internet","Elle n'a pas trouvé de DHCP","Elle est en IPv6","Elle a un masque /32"],a:1,
+     e:"169.254.x.x est une adresse APIPA, attribuée automatiquement quand aucun serveur DHCP ne répond."},
+    {q:"Quelle est l'adresse de broadcast de 192.168.5.0/24 ?",o:["192.168.5.0","192.168.5.1","192.168.5.255","192.168.255.255"],a:2,
+     e:"En /24, tous les bits hôte à 1 donnent 192.168.5.255 comme broadcast."},
+    {q:"Quelle adresse ne peut PAS être attribuée à un hôte ?",o:["192.168.1.1","192.168.1.254","192.168.1.255","192.168.1.100"],a:2,
+     e:"192.168.1.255 est l'adresse de broadcast du réseau /24, elle ne peut pas être attribuée à un hôte."},
+    {q:"Quelle est l'adresse de loopback IPv4 ?",o:["0.0.0.0","127.0.0.1","255.255.255.255","169.254.0.1"],a:1,
+     e:"127.0.0.1 (ou tout 127.x.x.x) est l'adresse de bouclage local (localhost)."},
+    {q:"À quoi sert la passerelle par défaut ?",o:["À filtrer les paquets","À sortir du réseau local","À attribuer les IP","À résoudre les noms"],a:1,
+     e:"La passerelle par défaut est l'adresse du routeur qui permet de joindre les réseaux externes."},
+    {q:"Quelle est la première adresse utilisable de 10.1.1.0/24 ?",o:["10.1.1.0","10.1.1.1","10.1.1.255","10.1.1.2"],a:1,
+     e:"L'adresse réseau est 10.1.1.0 (non utilisable). La première adresse hôte est 10.1.1.1."}
+  ],
+  subnet: [
+    {q:"Quel est le pas d'un masque 255.255.255.224 ?",o:["16","32","64","128"],a:1,
+     e:"Pas = 256 − 224 = 32. Les sous-réseaux sont 0, 32, 64, 96, 128, 160, 192, 224."},
+    {q:"Adresse réseau de 192.168.1.100/26 ?",o:["192.168.1.0","192.168.1.64","192.168.1.96","192.168.1.128"],a:1,
+     e:"/26 → pas de 64. Multiples : 0, 64, 128, 192. 100 se situe entre 64 et 127 → réseau 192.168.1.64."},
+    {q:"Combien de sous-réseaux obtient-on en passant d'un /24 à un /27 ?",o:["2","4","8","16"],a:2,
+     e:"On emprunte 3 bits (27−24). 2³ = 8 sous-réseaux."},
+    {q:"Quel CIDR offre exactement 2 hôtes utilisables ?",o:["/28","/29","/30","/31"],a:2,
+     e:"/30 → 2 bits hôte → 2² − 2 = 2 hôtes. C'est le standard pour les liaisons point à point."},
+    {q:"Broadcast de 172.16.8.0/22 ?",o:["172.16.8.255","172.16.9.255","172.16.11.255","172.16.15.255"],a:2,
+     e:"/22 → 2 bits dans le 3ᵉ octet. Pas = 4. Réseaux : 8, 12. 8+4−1 = 11 → broadcast 172.16.11.255."},
+    {q:"Quel masque faut-il pour 6 sous-réseaux à partir d'un /24 ?",o:["/25","/26","/27","/28"],a:2,
+     e:"Il faut 2ⁿ ≥ 6 → n=3 → /27. Cela donne 8 sous-réseaux de 30 hôtes."},
+    {q:"En VLSM, on commence toujours par…",o:["Le plus petit besoin","Le plus grand besoin","Un ordre aléatoire","Le besoin du milieu"],a:1,
+     e:"On commence par le plus grand besoin pour éviter les trous et les chevauchements d'adresses."},
+    {q:"Combien d'hôtes dans un /25 ?",o:["126","128","62","254"],a:0,
+     e:"/25 → 7 bits hôte → 2⁷ − 2 = 126 hôtes utilisables."},
+    {q:"192.168.4.75/27 : quelle est la dernière adresse utilisable ?",o:["192.168.4.94","192.168.4.95","192.168.4.126","192.168.4.78"],a:0,
+     e:"/27 → pas de 32. Réseau = 64 (car 75 est entre 64 et 95). Broadcast = 95. Dernière hôte = 94."},
+    {q:"Deux machines 10.0.0.5/29 et 10.0.0.6/29 peuvent-elles communiquer directement ?",o:["Oui, même sous-réseau","Non, sous-réseaux différents","Oui, si même passerelle","Non, adresses invalides"],a:0,
+     e:"/29 → pas de 8. Réseau = 10.0.0.0 pour les deux. Elles sont bien dans le même sous-réseau."}
+  ],
+  ipv6: [
+    {q:"Combien de bits compose une adresse IPv6 ?",o:["32","64","128","256"],a:2,
+     e:"Une adresse IPv6 fait 128 bits, notée en 8 groupes hexadécimaux."},
+    {q:"Que signifie le préfixe FE80::/10 ?",o:["Global unicast","Link-local","Multicast","Loopback"],a:1,
+     e:"FE80::/10 correspond aux adresses link-local, valables uniquement sur le lien local."},
+    {q:"Quelle est l'adresse de loopback IPv6 ?",o:["::","::1","FE80::1","FF02::1"],a:1,
+     e:"::1 est l'équivalent IPv6 de 127.0.0.1."},
+    {q:"Combien de fois peut-on utiliser '::' dans une adresse IPv6 ?",o:["Une seule fois","Deux fois","Autant que voulu","Jamais"],a:0,
+     e:"On ne peut utiliser '::' qu'une seule fois, sinon l'adresse devient ambiguë et impossible à reconstituer."},
+    {q:"Quel préfixe correspond aux adresses Global Unicast ?",o:["2000::/3","FC00::/7","FE80::/10","FF00::/8"],a:0,
+     e:"2000::/3 couvre les adresses globales routables sur Internet."},
+    {q:"Quelle affirmation est vraie en IPv6 ?",o:["Le broadcast existe toujours","Le broadcast n'existe plus","Il n'y a pas de multicast","Les adresses font 64 bits"],a:1,
+     e:"IPv6 supprime le broadcast et le remplace par du multicast et de l'anycast."},
+    {q:"Quel est l'équivalent IPv6 des adresses privées ?",o:["Link-local","Unique Local (FC00::/7)","Multicast","Anycast"],a:1,
+     e:"Les adresses Unique Local (FC00::/7), souvent FD00::/8 en pratique, jouent le rôle des adresses privées."},
+    {q:"Dans EUI-64, quelle valeur insère-t-on au milieu de la MAC ?",o:["FFFF","FFFE","0000","FEFE"],a:1,
+     e:"On insère FF:FE au milieu de l'adresse MAC pour construire l'identifiant d'interface sur 64 bits."}
+  ],
+  ios: [
+    {q:"Quelle commande passe en mode privilégié ?",o:["login","enable","configure terminal","exit"],a:1,
+     e:"La commande 'enable' fait passer du mode utilisateur (>) au mode privilégié (#)."},
+    {q:"Quelle commande affiche la configuration active ?",o:["show startup-config","show running-config","show version","show flash"],a:1,
+     e:"'show running-config' affiche la configuration en cours, stockée en RAM."},
+    {q:"Où est stockée la configuration de démarrage ?",o:["RAM","NVRAM","Flash","ROM"],a:1,
+     e:"La startup-config est conservée en NVRAM et survit à l'extinction de l'équipement."},
+    {q:"Quelle commande sauvegarde la configuration ?",o:["copy startup-config running-config","copy running-config startup-config","save config","write flash"],a:1,
+     e:"'copy running-config startup-config' (ou 'write memory') copie la config de la RAM vers la NVRAM."},
+    {q:"Quelle commande active une interface ?",o:["no shutdown","shutdown","enable","up"],a:0,
+     e:"'no shutdown' active l'interface. Par défaut, les interfaces d'un routeur sont administrativement désactivées."},
+    {q:"Quel mode permet de configurer une interface ?",o:["Router#","Router(config)#","Router(config-if)#","Router>"],a:2,
+     e:"Le mode (config-if)# est atteint via 'interface g0/0' depuis le mode configuration globale."},
+    {q:"Comment retourner directement au mode privilégié ?",o:["exit","end","quit","back"],a:1,
+     e:"'end' (ou Ctrl+Z) ramène directement au mode privilégié depuis n'importe quel mode de configuration."},
+    {q:"Quelle commande affiche l'état des interfaces ?",o:["show interfaces status","show ip interface brief","show version","show run"],a:1,
+     e:"'show ip interface brief' affiche l'état (up/down) et l'adresse IP de chaque interface — c'est la commande la plus utilisée."}
+  ],
+  vlan: [
+    {q:"Qu'est-ce qu'un VLAN ?",o:["Un réseau logique isolé","Un type de câble","Un protocole de routage","Une adresse IP"],a:0,
+     e:"Un VLAN est un réseau logique créé sur un switch, formant un domaine de diffusion séparé."},
+    {q:"Quel VLAN est le VLAN par défaut sur un switch Cisco ?",o:["VLAN 0","VLAN 1","VLAN 10","VLAN 100"],a:1,
+     e:"Tous les ports d'un switch Cisco appartiennent au VLAN 1 par défaut."},
+    {q:"Quel protocole étiquette les trames sur un trunk ?",o:["802.11","802.1Q","802.3","802.1X"],a:1,
+     e:"802.1Q insère une étiquette de 4 octets contenant l'identifiant du VLAN dans la trame Ethernet."},
+    {q:"Combien de VLAN peut-on créer au maximum avec 802.1Q ?",o:["256","1024","4094","65535"],a:2,
+     e:"L'identifiant VLAN fait 12 bits → 4096 valeurs, moins 0 et 4095 réservés → 4094 VLAN utilisables."},
+    {q:"Un port access appartient à combien de VLAN ?",o:["Un seul","Deux","Autant qu'on veut","Aucun"],a:0,
+     e:"Un port en mode access n'appartient qu'à un seul VLAN et les trames y circulent sans étiquette."},
+    {q:"Quelle commande affecte un port au VLAN 10 ?",o:["switchport access vlan 10","vlan 10 port","set vlan 10","switchport trunk vlan 10"],a:0,
+     e:"'switchport access vlan 10' place le port dans le VLAN 10 (après l'avoir passé en mode access)."},
+    {q:"Qu'est-ce que le router-on-a-stick ?",o:["Un routeur avec sous-interfaces","Un switch empilé","Un câble spécial","Un protocole de routage"],a:0,
+     e:"Le router-on-a-stick utilise des sous-interfaces sur une seule interface physique pour router entre VLAN."},
+    {q:"Que fait un switch en mode VTP transparent ?",o:["Il applique les VLAN reçus","Il relaie sans appliquer","Il crée les VLAN pour tous","Il bloque le VTP"],a:1,
+     e:"En mode transparent, le switch possède ses propres VLAN, ne les synchronise pas, mais relaie les annonces VTP."},
+    {q:"Quelle commande affiche les VLAN d'un switch ?",o:["show vlan brief","show vlan all","show interfaces vlan","show trunk"],a:0,
+     e:"'show vlan brief' liste tous les VLAN et les ports qui leur sont associés."},
+    {q:"Le VLAN natif sur un trunk 802.1Q circule…",o:["Avec étiquette","Sans étiquette","Chiffré","En multicast"],a:1,
+     e:"Les trames du VLAN natif (VLAN 1 par défaut) traversent le trunk sans être étiquetées."}
+  ],
+  routage: [
+    {q:"Quelle est la distance administrative d'une route statique ?",o:["0","1","90","110"],a:1,
+     e:"La route statique a une AD de 1. La route connectée directement a 0."},
+    {q:"Quelle est l'AD d'OSPF ?",o:["90","100","110","120"],a:2,
+     e:"OSPF a une distance administrative de 110."},
+    {q:"Quelle commande configure une route par défaut ?",o:["ip route 0.0.0.0 0.0.0.0 10.0.0.2","ip default 0.0.0.0","route default 10.0.0.2","ip gateway 10.0.0.2"],a:0,
+     e:"'ip route 0.0.0.0 0.0.0.0 <next-hop>' crée la route par défaut (S* dans la table)."},
+    {q:"Que signifie le 'O' dans la table de routage ?",o:["Connecté","Statique","OSPF","RIP"],a:2,
+     e:"'O' indique une route apprise par OSPF. 'C' = connecté, 'S' = statique, 'R' = RIP."},
+    {q:"Quel algorithme utilise OSPF ?",o:["Bellman-Ford","Dijkstra (SPF)","Diffusing Update","Token Ring"],a:1,
+     e:"OSPF utilise l'algorithme SPF de Dijkstra pour calculer le plus court chemin."},
+    {q:"Quel est le masque générique pour 192.168.1.0/24 ?",o:["0.0.0.255","255.255.255.0","0.0.0.0","255.255.255.255"],a:0,
+     e:"Le wildcard est l'inverse du masque : /24 → 0.0.0.255."},
+    {q:"Quel protocole a une métrique basée sur le nombre de sauts ?",o:["OSPF","EIGRP","RIP","BGP"],a:2,
+     e:"RIP utilise le nombre de sauts (maximum 15, 16 = inaccessible)."},
+    {q:"Quelle est l'aire OSPF de backbone ?",o:["Aire 0","Aire 1","Aire 10","Aire 100"],a:0,
+     e:"L'aire 0 (0.0.0.0) est l'aire dorsale d'OSPF. Toutes les autres aires doivent s'y connecter."},
+    {q:"Que fait le routeur si plusieurs routes correspondent ?",o:["Il choisit au hasard","La correspondance la plus longue","La plus courte","La première"],a:1,
+     e:"Le routeur applique le 'longest prefix match' : la route avec le préfixe le plus spécifique gagne."},
+    {q:"Quelle commande vérifie les voisins OSPF ?",o:["show ospf","show ip ospf neighbor","show neighbors","show ip route"],a:1,
+     e:"'show ip ospf neighbor' affiche l'état des relations de voisinage OSPF."}
+  ],
+  services: [
+    {q:"Que signifie DORA en DHCP ?",o:["Discover, Offer, Request, Ack","Data, Order, Reply, Accept","Dynamic, Open, Route, Address","Discover, Open, Reply, Apply"],a:0,
+     e:"DORA = Discover, Offer, Request, Acknowledge : les 4 étapes de l'attribution DHCP."},
+    {q:"Quel port utilise DHCP ?",o:["53","67/68","69","123"],a:1,
+     e:"DHCP utilise UDP 67 côté serveur et UDP 68 côté client."},
+    {q:"Que fait le NAT ?",o:["Traduit les noms de domaine","Traduit les adresses privées en publiques","Filtre le trafic","Route les paquets"],a:1,
+     e:"Le NAT traduit les adresses IP privées en adresses publiques (et inversement)."},
+    {q:"Quelle est la différence entre NAT et PAT ?",o:["Aucune","PAT utilise les ports pour multiplexer","PAT est plus lent","NAT est plus récent"],a:1,
+     e:"Le PAT (NAT overload) permet à plusieurs hôtes de partager une seule IP publique grâce aux numéros de port."},
+    {q:"Quel type d'enregistrement DNS associe un nom à une IPv4 ?",o:["AAAA","CNAME","A","MX"],a:2,
+     e:"L'enregistrement A associe un nom à une adresse IPv4. AAAA concerne IPv6."},
+    {q:"Quel port utilise DNS pour les requêtes ?",o:["25","53","80","110"],a:1,
+     e:"DNS utilise le port 53, en UDP pour les requêtes et en TCP pour les transferts de zone."},
+    {q:"Que signifie 'inside local' en NAT ?",o:["IP publique vue de l'extérieur","IP privée de la machine interne","IP du routeur FAI","IP du serveur DNS"],a:1,
+     e:"'Inside local' est l'adresse privée de l'hôte interne avant traduction."},
+    {q:"Quel service synchronise l'heure des équipements ?",o:["Syslog","SNMP","NTP","TFTP"],a:2,
+     e:"NTP (Network Time Protocol), port UDP 123, synchronise l'horloge des équipements."},
+    {q:"Quelle commande active le PAT sur une interface ?",o:["ip nat inside source list 1 interface g0/1 overload","ip nat enable","nat overload on","ip pat inside"],a:0,
+     e:"Cette commande associe la liste d'accès 1 à l'interface externe avec surcharge (PAT)."}
+  ],
+  securite: [
+    {q:"Que trouve-t-on implicitement à la fin de toute ACL ?",o:["Un permit any","Un deny any","Rien","Un permit ip"],a:1,
+     e:"Un 'deny any' implicite termine toute ACL. Sans permit final, tout le reste du trafic est bloqué."},
+    {q:"Où placer une ACL standard ?",o:["Près de la source","Près de la destination","Sur le routeur central","N'importe où"],a:1,
+     e:"L'ACL standard ne filtre que la source : on la place près de la destination pour ne pas bloquer trop de trafic."},
+    {q:"Quelle plage de numéros pour une ACL étendue ?",o:["1–99","100–199","200–299","1000–1999"],a:1,
+     e:"Les ACL étendues utilisent les numéros 100 à 199 et 2000 à 2699."},
+    {q:"Quelle commande remplace 'enable password' de façon sécurisée ?",o:["enable secret","enable secure","password secret","set enable"],a:0,
+     e:"'enable secret' chiffre le mot de passe avec MD5/SHA, contrairement à 'enable password' qui est en clair."},
+    {q:"Quel mode de violation port-security désactive le port ?",o:["protect","restrict","shutdown","block"],a:2,
+     e:"Le mode 'shutdown' (par défaut) place le port en état err-disabled."},
+    {q:"Quel protocole remplace avantageusement Telnet ?",o:["FTP","SSH","HTTP","SNMP"],a:1,
+     e:"SSH chiffre la session d'administration, alors que Telnet transmet tout en clair."},
+    {q:"Que protège DHCP Snooping ?",o:["Les faux serveurs DHCP","Les faux routeurs","Les virus","Les câbles"],a:0,
+     e:"DHCP Snooping bloque les serveurs DHCP non autorisés en filtrant les ports non 'trusted'."},
+    {q:"Quelle attaque consiste à saturer la table MAC d'un switch ?",o:["ARP Spoofing","MAC Flooding","VLAN Hopping","DDoS"],a:1,
+     e:"Le MAC Flooding remplit la table CAM, forçant le switch à diffuser le trafic à tous les ports (écoute possible)."},
+    {q:"Que signifie le wildcard 0.0.0.0 ?",o:["Toutes les adresses","Une adresse précise","Un réseau /24","Aucune adresse"],a:1,
+     e:"0.0.0.0 en wildcard signifie une correspondance exacte sur une seule adresse (équivalent de 'host')."},
+    {q:"Quelle commande chiffre les mots de passe en clair de la config ?",o:["service password-encryption","encrypt all","password secure","enable encryption"],a:0,
+     e:"'service password-encryption' chiffre les mots de passe en clair présents dans la configuration."}
+  ]
+};
+
+/* =========================================================
+   MOTEUR DE QUIZ
+   ========================================================= */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuiz(containerId, questions, title){
+  const box = document.getElementById(containerId);
+  if(!box) return;
+  const qs = questions;
+  let html = `<div class="qhead"><h3><i class="fa-solid fa-circle-question"></i> ${title}</h3>
+    <span class="qscore">${qs.length} question${qs.length>1?'s':''}</span></div>`;
+
+  qs.forEach((item,i)=>{
+    html += `<div class="q" data-q="${i}">
+      <div class="qtext"><span class="qnum">${i+1}</span><span>${item.q}</span></div>`;
+    item.o.forEach((opt,j)=>{
+      html += `<label class="opt" data-opt="${j}">
+        <input type="radio" name="${containerId}-q${i}" value="${j}">
+        <span>${opt}</span></label>`;
+    });
+    html += `<div class="explain"><b><i class="fa-solid fa-circle-info"></i>Explication :</b> ${item.e}</div></div>`;
+  });
+
+  html += `<div class="btnrow">
+      <button class="btn primary" data-act="check"><i class="fa-solid fa-circle-check"></i> Valider mes réponses</button>
+      <button class="btn ghost" data-act="reset"><i class="fa-solid fa-rotate-left"></i> Recommencer</button>
+    </div>
+    <div class="result" data-role="result">
+      <div class="big">0 %</div>
+      <div class="msg"></div>
+      <div class="bar"><span></span></div>
+    </div>`;
+
+  box.innerHTML = html;
+
+  box.querySelector('[data-act="check"]').addEventListener('click',()=>{
+    let score = 0, answered = 0;
+    qs.forEach((item,i)=>{
+      const qEl = box.querySelector(`.q[data-q="${i}"]`);
+      const sel = qEl.querySelector('input:checked');
+      if(sel) answered++;
+      qEl.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
+      qEl.querySelectorAll('input').forEach(inp=>inp.disabled=true);
+      const correctOpt = qEl.querySelector(`.opt[data-opt="${item.a}"]`);
+      correctOpt.classList.add('correct');
+      if(sel){
+        const chosen = parseInt(sel.value,10);
+        if(chosen === item.a) score++;
+        else qEl.querySelector(`.opt[data-opt="${chosen}"]`).classList.add('wrong');
+      }
+      qEl.querySelector('.explain').classList.add('show');
+    });
+
+    const pct = Math.round(score/qs.length*100);
+    const res = box.querySelector('[data-role="result"]');
+    res.classList.add('show');
+    res.classList.toggle('pass', pct>=80);
+    res.classList.toggle('fail', pct<80);
+    res.querySelector('.big').textContent = pct + ' %';
+    res.querySelector('.msg').innerHTML =
+      `${score} / ${qs.length} bonnes réponses — ${answered} question(s) traitée(s). ` +
+      (pct>=80 ? '<i class="fa-solid fa-champagne-glasses"></i> Excellent !' :
+       pct>=50 ? 'Pas mal, révise les points manqués.' :
+       'À retravailler : relis le cours.');
+    setTimeout(()=>{ res.querySelector('.bar span').style.width = pct + '%'; },50);
+  });
+
+  box.querySelector('[data-act="reset"]').addEventListener('click',()=>{
+    buildQuiz(containerId, questions, title);
+  });
+}
+
+/* =========================================================
+   INITIALISATION DES QUIZ
+   ========================================================= */
+const QUIZ_TITLES = {
+  bases:"Quiz — Bases des réseaux",
+  ip:"Quiz — Adressage IPv4",
+  subnet:"Quiz — Subnetting",
+  ipv6:"Quiz — IPv6",
+  ios:"Quiz — IOS Cisco",
+  vlan:"Quiz — VLAN & Trunk",
+  routage:"Quiz — Routage",
+  services:"Quiz — Services réseau",
+  securite:"Quiz — Sécurité & ACL"
+};
+Object.keys(QUIZZES).forEach(k=>buildQuiz('quiz-'+k, QUIZZES[k], QUIZ_TITLES[k]));
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+const navBtns = document.querySelectorAll('.nav-btn');
+const pages = document.querySelectorAll('.page');
+const sidebar = document.getElementById('sidebar');
+
+function goTo(id){
+  pages.forEach(p=>p.classList.toggle('active', p.id===id));
+  navBtns.forEach(b=>{
+    const on = b.dataset.page===id;
+    b.classList.toggle('active', on);
+    if(on) b.classList.add('done');
+  });
+  saveProgress(id);
+  window.scrollTo({top:0,behavior:'smooth'});
+  sidebar.classList.remove('open');
+}
+
+navBtns.forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.page)));
+
+document.querySelectorAll('[data-goto]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    goTo(a.dataset.goto);
+  });
+});
+
+document.getElementById('burger').addEventListener('click',()=>{
+  sidebar.classList.toggle('open');
+});
+
+/* =========================================================
+   PROGRESSION (localStorage)
+   ========================================================= */
+const LS_KEY = 'ccna_academy_progress';
+function saveProgress(pageId){
+  try{
+    const data = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    if(!data.includes(pageId)) data.push(pageId);
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+  }catch(e){}
+}
+function loadProgress(){
+  try{
+    const data = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    navBtns.forEach(b=>{
+      if(data.includes(b.dataset.page)) b.classList.add('done');
+    });
+  }catch(e){}
+}
+loadProgress();
+
+/* =========================================================
+   GÉNÉRATEUR DE SUBNETTING
+   ========================================================= */
+function ipToInt(ip){
+  return ip.split('.').reduce((acc,o)=>((acc<<8) + parseInt(o,10))>>>0, 0)>>>0;
+}
+function intToIp(n){
+  n = n>>>0;
+  return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
+}
+function maskFromCidr(c){
+  return c===0 ? 0 : ((0xFFFFFFFF << (32-c))>>>0);
+}
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+let currentSub = null;
+
+function newSubnetExercise(){
+  const cidr = randomInt(8,30);
+  const netBase = [randomInt(10,223), randomInt(0,255), randomInt(0,255), randomInt(0,255)];
+  if(netBase[0]===127) netBase[0]=128;
+  const ip = netBase.join('.');
+  const ipInt = ipToInt(ip);
+  const mask = maskFromCidr(cidr);
+  const netInt = (ipInt & mask)>>>0;
+  const bcInt = (netInt | (~mask >>> 0))>>>0;
+  const firstInt = cidr>=31 ? netInt : (netInt+1)>>>0;
+  const lastInt = cidr>=31 ? bcInt : (bcInt-1)>>>0;
+  const hosts = cidr>=31 ? 0 : Math.pow(2,32-cidr)-2;
+
+  currentSub = {
+    ip: ip + '/' + cidr,
+    network: intToIp(netInt),
+    broadcast: intToIp(bcInt),
+    first: intToIp(firstInt),
+    last: intToIp(lastInt),
+    hosts: String(hosts),
+    mask: intToIp(mask)
+  };
+
+  document.getElementById('sub-ip').textContent = currentSub.ip;
+  ['sub-net','sub-bc','sub-first','sub-last','sub-hosts','sub-mask'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.value = '';
+    el.classList.remove('good','bad');
+  });
+  const fb = document.getElementById('sub-feedback');
+  fb.innerHTML = '';
+  fb.className = 'feedback';
+}
+
+function checkSubnet(){
+  if(!currentSub) return;
+  const map = {
+    'sub-net':'network',
+    'sub-bc':'broadcast',
+    'sub-first':'first',
+    'sub-last':'last',
+    'sub-hosts':'hosts',
+    'sub-mask':'mask'
+  };
+  let ok = 0, total = 0;
+  Object.keys(map).forEach(id=>{
+    const el = document.getElementById(id);
+    const val = el.value.trim();
+    const expected = currentSub[map[id]];
+    total++;
+    if(val === expected){
+      el.classList.add('good'); el.classList.remove('bad'); ok++;
+    }else{
+      el.classList.add('bad'); el.classList.remove('good');
+    }
+  });
+  const fb = document.getElementById('sub-feedback');
+  if(ok === total){
+    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Parfait ! ${ok}/${total} — tout est juste.`;
+    fb.className = 'feedback ok';
+  }else{
+    fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${ok}/${total} correct. Les champs en rouge sont faux. Clique sur "Voir la solution" si besoin.`;
+    fb.className = 'feedback ko';
+  }
+}
+
+function revealSubnet(){
+  if(!currentSub) return;
+  document.getElementById('sub-net').value = currentSub.network;
+  document.getElementById('sub-bc').value = currentSub.broadcast;
+  document.getElementById('sub-first').value = currentSub.first;
+  document.getElementById('sub-last').value = currentSub.last;
+  document.getElementById('sub-hosts').value = currentSub.hosts;
+  document.getElementById('sub-mask').value = currentSub.mask;
+  ['sub-net','sub-bc','sub-first','sub-last','sub-hosts','sub-mask'].forEach(id=>{
+    const el = document.getElementById(id);
+    el.classList.remove('bad'); el.classList.add('good');
+  });
+  const fb = document.getElementById('sub-feedback');
+  fb.innerHTML = '<i class="fa-solid fa-book-open-reader"></i> Solution affichée. Refais un nouvel exercice pour t\'entraîner.';
+  fb.className = 'feedback';
+}
+
+document.getElementById('sub-check').addEventListener('click',checkSubnet);
+document.getElementById('sub-new').addEventListener('click',newSubnetExercise);
+document.getElementById('sub-reveal').addEventListener('click',revealSubnet);
+newSubnetExercise();
+
+/* =========================================================
+   EXAMEN BLANC
+   ========================================================= */
+const ALL_QUESTIONS = [];
+Object.keys(QUIZZES).forEach(cat=>{
+  QUIZZES[cat].forEach(q=>ALL_QUESTIONS.push(q));
+});
+
+const EXAM_SIZE = 20;
+const examContainer = document.getElementById('exam-container');
+let examQuestions = [];
+let examLocked = false;
+
+function startExam(){
+  examLocked = false;
+  examQuestions = shuffle(ALL_QUESTIONS).slice(0, EXAM_SIZE);
+  let html = `<div class="quiz">
+    <div class="qhead"><h3><i class="fa-solid fa-file-pen"></i> Examen blanc — ${EXAM_SIZE} questions</h3>
+      <span class="qscore">Seuil : 80 %</span></div>`;
+
+  examQuestions.forEach((item,i)=>{
+    html += `<div class="q" data-eq="${i}">
+      <div class="qtext"><span class="qnum">${i+1}</span><span>${item.q}</span></div>`;
+    item.o.forEach((opt,j)=>{
+      html += `<label class="opt" data-eopt="${j}">
+        <input type="radio" name="exam-q${i}" value="${j}">
+        <span>${opt}</span></label>`;
+    });
+    html += `<div class="explain"><b><i class="fa-solid fa-circle-info"></i>Explication :</b> ${item.e}</div></div>`;
+  });
+
+  html += `<div class="btnrow">
+      <button class="btn primary" id="exam-submit"><i class="fa-solid fa-circle-check"></i> Valider l'examen</button>
+    </div>
+    <div class="result" id="exam-result">
+      <div class="big">0 %</div>
+      <div class="msg"></div>
+      <div class="bar"><span></span></div>
+    </div>
+  </div>`;
+
+  examContainer.innerHTML = html;
+  document.getElementById('exam-submit').addEventListener('click',submitExam);
+}
+
+function submitExam(){
+  if(examLocked) return;
+  examLocked = true;
+  let score = 0;
+
+  examQuestions.forEach((item,i)=>{
+    const qEl = examContainer.querySelector(`.q[data-eq="${i}"]`);
+    const sel = qEl.querySelector('input:checked');
+    qEl.querySelectorAll('.opt').forEach(o=>o.classList.add('locked'));
+    qEl.querySelectorAll('input').forEach(inp=>inp.disabled=true);
+    qEl.querySelector(`.opt[data-eopt="${item.a}"]`).classList.add('correct');
+    if(sel){
+      const chosen = parseInt(sel.value,10);
+      if(chosen === item.a) score++;
+      else qEl.querySelector(`.opt[data-eopt="${chosen}"]`).classList.add('wrong');
+    }
+    qEl.querySelector('.explain').classList.add('show');
+  });
+
+  const pct = Math.round(score/examQuestions.length*100);
+  const res = document.getElementById('exam-result');
+  res.classList.add('show');
+  res.classList.toggle('pass', pct>=80);
+  res.classList.toggle('fail', pct<80);
+  res.querySelector('.big').textContent = pct + ' %';
+  res.querySelector('.msg').innerHTML =
+    `${score} / ${examQuestions.length} — ` +
+    (pct>=80 ? '<i class="fa-solid fa-champagne-glasses"></i> Réussi ! Tu es prêt.' :
+     pct>=60 ? 'Presque. Retravaille les modules faibles.' :
+     'Continue à réviser, tu progresses.');
+  setTimeout(()=>{ res.querySelector('.bar span').style.width = pct + '%'; },50);
+  res.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+document.getElementById('exam-start').addEventListener('click',startExam);
+document.getElementById('exam-reset').addEventListener('click',()=>{
+  examContainer.innerHTML = '';
+  examLocked = false;
+});
+
+/* =========================================================
+   RACCOURCIS CLAVIER
+   ========================================================= */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape') sidebar.classList.remove('open');
+});
+</script>
+</body>
+</html>
