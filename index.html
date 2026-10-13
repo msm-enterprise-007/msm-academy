@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCNA Academy — Apprendre les réseaux de zéro</title>
+<title>CCNA Academy - Apprendre les réseaux de zéro</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{
@@ -383,10 +383,10 @@ footer{
   <h3>À retenir par cœur</h3>
   <table>
     <tr><th>Couche</th><th>Unité de données (PDU)</th><th>Équipement typique</th><th>Adresse utilisée</th></tr>
-    <tr><td>Transport</td><td>Segment</td><td>—</td><td>Port (80, 443…)</td></tr>
+    <tr><td>Transport</td><td>Segment</td><td>-</td><td>Port (80, 443…)</td></tr>
     <tr><td>Réseau</td><td>Paquet</td><td>Routeur</td><td>IP</td></tr>
     <tr><td>Liaison</td><td>Trame</td><td>Switch</td><td>MAC</td></tr>
-    <tr><td>Physique</td><td>Bit</td><td>Hub, répéteur</td><td>—</td></tr>
+    <tr><td>Physique</td><td>Bit</td><td>Hub, répéteur</td><td>-</td></tr>
   </table>
 
   <h2>Le modèle TCP/IP (4 couches)</h2>
@@ -499,8 +499,8 @@ Physique      1011010010110100...               → Bits</code></pre>
     <tr><td>A</td><td>1 – 126</td><td>/8</td><td>Très grands réseaux</td></tr>
     <tr><td>B</td><td>128 – 191</td><td>/16</td><td>Réseaux moyens</td></tr>
     <tr><td>C</td><td>192 – 223</td><td>/24</td><td>Petits réseaux</td></tr>
-    <tr><td>D</td><td>224 – 239</td><td>—</td><td>Multicast</td></tr>
-    <tr><td>E</td><td>240 – 255</td><td>—</td><td>Expérimental</td></tr>
+    <tr><td>D</td><td>224 – 239</td><td>-</td><td>Multicast</td></tr>
+    <tr><td>E</td><td>240 – 255</td><td>-</td><td>Expérimental</td></tr>
   </table>
   <p class="pill">127.0.0.1 = loopback (localhost)</p>
 
@@ -529,7 +529,7 @@ Physique      1011010010110100...               → Bits</code></pre>
     <tr><td>255.255.255.255</td><td>Broadcast local limité</td></tr>
   </table>
 
-  <h2>ARP — résolution d'adresse</h2>
+  <h2>ARP - résolution d'adresse</h2>
   <p><strong>ARP</strong> (Address Resolution Protocol) fait le lien entre une <strong>adresse IP</strong> et une <strong>adresse MAC</strong>.</p>
   <ol>
     <li>La machine veut joindre <code>192.168.1.20</code></li>
@@ -574,9 +574,9 @@ Physique      1011010010110100...               → Bits</code></pre>
   </div>
 
   <h3>Exemple complet : 192.168.1.0/26</h3>
-  <p><strong>Étape 1 —</strong> /26 → masque <code>255.255.255.192</code></p>
-  <p><strong>Étape 2 —</strong> Pas = 256 − 192 = <strong>64</strong></p>
-  <p><strong>Étape 3 —</strong> Sous-réseaux : 0, 64, 128, 192</p>
+  <p><strong>Étape 1 -</strong> /26 → masque <code>255.255.255.192</code></p>
+  <p><strong>Étape 2 -</strong> Pas = 256 − 192 = <strong>64</strong></p>
+  <p><strong>Étape 3 -</strong> Sous-réseaux : 0, 64, 128, 192</p>
   <table>
     <tr><th>Sous-réseau</th><th>Adresse réseau</th><th>1ʳᵉ hôte</th><th>Dernière hôte</th><th>Broadcast</th></tr>
     <tr><td>1</td><td>192.168.1.0</td><td>192.168.1.1</td><td>192.168.1.62</td><td>192.168.1.63</td></tr>
@@ -621,7 +621,7 @@ Physique      1011010010110100...               → Bits</code></pre>
   <h2>Exercices corrigés</h2>
 
   <details>
-    <summary>Exercice 1 — Analyser 172.16.5.130/25 <span class="badge">Facile</span></summary>
+    <summary>Exercice 1 - Analyser 172.16.5.130/25 <span class="badge">Facile</span></summary>
     <div class="details-body">
       <p><strong>Question :</strong> Donne l'adresse réseau, le broadcast, la plage d'hôtes et le nombre d'hôtes.</p>
       <p><strong>Correction :</strong></p>
@@ -637,7 +637,7 @@ Physique      1011010010110100...               → Bits</code></pre>
   </details>
 
   <details>
-    <summary>Exercice 2 — Découper 192.168.10.0/24 en 6 sous-réseaux <span class="badge">Moyen</span></summary>
+    <summary>Exercice 2 - Découper 192.168.10.0/24 en 6 sous-réseaux <span class="badge">Moyen</span></summary>
     <div class="details-body">
       <p><strong>Question :</strong> Quel masque faut-il ? Quels sont les sous-réseaux ?</p>
       <p><strong>Correction :</strong></p>
@@ -660,7 +660,7 @@ Physique      1011010010110100...               → Bits</code></pre>
   </details>
 
   <details>
-    <summary>Exercice 3 — VLSM sur 10.0.0.0/24 <span class="badge">Difficile</span></summary>
+    <summary>Exercice 3 - VLSM sur 10.0.0.0/24 <span class="badge">Difficile</span></summary>
     <div class="details-body">
       <p><strong>Énoncé :</strong> Réseau 10.0.0.0/24. Besoins :</p>
       <ul><li>LAN A : 60 hôtes</li><li>LAN B : 28 hôtes</li><li>LAN C : 12 hôtes</li><li>Liaison série : 2 hôtes</li></ul>
@@ -686,7 +686,7 @@ Physique      1011010010110100...               → Bits</code></pre>
   <p class="lead">Le successeur d'IPv4. 128 bits au lieu de 32.</p>
 
   <h2>Pourquoi IPv6 ?</h2>
-  <p>IPv4 ne dispose que de ~4,3 milliards d'adresses, épuisées depuis 2011. IPv6 offre <strong>3,4 × 10³⁸ adresses</strong> — assez pour attribuer une adresse à chaque grain de sable de la planète.</p>
+  <p>IPv4 ne dispose que de ~4,3 milliards d'adresses, épuisées depuis 2011. IPv6 offre <strong>3,4 × 10³⁸ adresses</strong> - assez pour attribuer une adresse à chaque grain de sable de la planète.</p>
 
   <h2>Format d'une adresse IPv6</h2>
   <p>128 bits, notés en <strong>8 groupes de 4 chiffres hexadécimaux</strong> séparés par <code>:</code>.</p>
@@ -711,7 +711,7 @@ Physique      1011010010110100...               → Bits</code></pre>
     <tr><td><strong>Link-Local</strong></td><td>FE80::/10</td><td>Communication locale sur le lien, auto-générée</td></tr>
     <tr><td><strong>Unique Local</strong></td><td>FC00::/7</td><td>Équivalent des adresses privées</td></tr>
     <tr><td><strong>Multicast</strong></td><td>FF00::/8</td><td>Diffusion à un groupe</td></tr>
-    <tr><td><strong>Anycast</strong></td><td>—</td><td>Le plus proche du groupe</td></tr>
+    <tr><td><strong>Anycast</strong></td><td>-</td><td>Le plus proche du groupe</td></tr>
     <tr><td><strong>Loopback</strong></td><td>::1/128</td><td>Équivalent de 127.0.0.1</td></tr>
   </table>
   <p class="pill">Il n'y a plus de broadcast en IPv6</p>
@@ -845,8 +845,8 @@ R1# copy running-config startup-config</code></pre>
     <tr><th>VLAN</th><th>Nom</th><th>Rôle</th></tr>
     <tr><td>1</td><td>default</td><td>Tous les ports y sont par défaut</td></tr>
     <tr><td>1002–1005</td><td>fddi, token-ring…</td><td>Réservés (anciens protocoles)</td></tr>
-    <tr><td>2–1001</td><td>—</td><td>VLAN normaux (utilisables)</td></tr>
-    <tr><td>1006–4094</td><td>—</td><td>VLAN étendus</td></tr>
+    <tr><td>2–1001</td><td>-</td><td>VLAN normaux (utilisables)</td></tr>
+    <tr><td>1006–4094</td><td>-</td><td>VLAN étendus</td></tr>
   </table>
 
   <h2>Ports d'accès vs ports trunk</h2>
@@ -855,7 +855,7 @@ R1# copy running-config startup-config</code></pre>
     <div class="mini"><h4><i class="fa-solid fa-link"></i> Port Trunk</h4><p>Transporte <strong>plusieurs</strong> VLAN. Relie switch↔switch ou switch↔routeur. Les trames sont <strong>étiquetées 802.1Q</strong>.</p></div>
   </div>
 
-  <h2>802.1Q — l'étiquetage</h2>
+  <h2>802.1Q - l'étiquetage</h2>
   <p>Le protocole <strong>802.1Q</strong> insère une étiquette de 4 octets dans la trame Ethernet, contenant l'<strong>ID du VLAN</strong> (12 bits → 4094 VLAN possibles).</p>
   <p>Le <strong>VLAN natif</strong> (par défaut VLAN 1) circule <strong>sans étiquette</strong> sur le trunk.</p>
 
@@ -932,7 +932,7 @@ Router(config-subif)# exit</code></pre>
   <p>Un routeur relie des réseaux différents. Il consulte sa <strong>table de routage</strong> pour chaque paquet et choisit la meilleure route selon :</p>
   <ol>
     <li>La <strong>correspondance la plus longue</strong> (longest prefix match)</li>
-    <li>La <strong>distance administrative</strong> (AD) — plus basse = plus fiable</li>
+    <li>La <strong>distance administrative</strong> (AD) - plus basse = plus fiable</li>
     <li>La <strong>métrique</strong> du protocole</li>
   </ol>
 
@@ -947,7 +947,7 @@ Router(config-subif)# exit</code></pre>
     <tr><td>EIGRP (externe)</td><td>170</td></tr>
   </table>
 
-  <h2>Table de routage — lecture</h2>
+  <h2>Table de routage - lecture</h2>
 <pre><code>R1# show ip route
 Codes: C - connected, S - static, O - OSPF, R - RIP
 
@@ -978,14 +978,14 @@ Router(config)# ip route 192.168.3.0 255.255.255.0 g0/1</code></pre>
     <p>Petits réseaux, liens WAN stables, route par défaut vers le FAI. Avantages : pas de CPU, pas de bande passante, sécurisé. Inconvénient : pas d'adaptation automatique en cas de panne.</p>
   </div>
 
-  <h2>Routage dynamique — OSPF</h2>
+  <h2>Routage dynamique - OSPF</h2>
   <p><strong>OSPF</strong> (Open Shortest Path First) est un protocole à <strong>état de liens</strong> utilisant l'algorithme <strong>Dijkstra</strong> (SPF). C'est le plus utilisé en entreprise.</p>
   <p><strong>Caractéristiques :</strong></p>
   <ul>
     <li>Standard ouvert (pas propriétaire Cisco)</li>
     <li>Métrique = <strong>coût</strong> basé sur la bande passante</li>
     <li>Convergence rapide</li>
-    <li>Utilise des <strong>aires</strong> (areas) — l'aire 0 est la dorsale</li>
+    <li>Utilise des <strong>aires</strong> (areas) - l'aire 0 est la dorsale</li>
     <li>Diffusion par multicast 224.0.0.5 et 224.0.0.6</li>
   </ul>
 
@@ -1024,12 +1024,12 @@ Router# show ip route ospf</code></pre>
 <!-- ================= 8. SERVICES ================= -->
 <section class="page" id="services">
   <h1><i class="fa-solid fa-gears"></i> 8 · <span class="em">Services réseau</span></h1>
-  <p class="lead">DHCP, DNS, NAT — les services indispensables.</p>
+  <p class="lead">DHCP, DNS, NAT - les services indispensables.</p>
 
   <h2>DHCP</h2>
   <p><strong>DHCP</strong> (Dynamic Host Configuration Protocol) attribue automatiquement une configuration IP aux machines. Port UDP <strong>67</strong> (serveur) et <strong>68</strong> (client).</p>
 
-  <h3>Les 4 étapes — DORA</h3>
+  <h3>Les 4 étapes - DORA</h3>
   <table>
     <tr><th>Étape</th><th>Message</th><th>Direction</th><th>Type</th></tr>
     <tr><td>1</td><td><strong>D</strong>iscover</td><td>Client → Broadcast</td><td>« Y a-t-il un serveur DHCP ? »</td></tr>
@@ -1119,7 +1119,7 @@ Router# show ip nat statistics</code></pre>
   <h1><i class="fa-solid fa-lock"></i> 9 · <span class="em">Sécurité & ACL</span></h1>
   <p class="lead">Filtrer le trafic et durcir les équipements.</p>
 
-  <h2>Les ACL — Access Control Lists</h2>
+  <h2>Les ACL - Access Control Lists</h2>
   <p>Une <strong>ACL</strong> est une liste de règles qui autorisent ou refusent le trafic. Elles se lisent <strong>de haut en bas</strong> et s'arrêtent à la première correspondance.</p>
 
   <div class="card warn">
@@ -1231,7 +1231,7 @@ R1(config-line)# exit</code></pre>
   <div class="subnet-box">
     <div class="subnet-given">
       <span class="lbl">Adresse IP / CIDR</span>
-      <span class="val" id="sub-ip">—</span>
+      <span class="val" id="sub-ip">-</span>
     </div>
 
     <div class="subnet-fields">
@@ -1294,7 +1294,7 @@ R1(config-line)# exit</code></pre>
 </section>
 
 <footer>
-  CCNA Academy — Support pédagogique libre pour l'apprentissage des réseaux.<br>
+  CCNA Academy - Support pédagogique libre pour l'apprentissage des réseaux.<br>
   Progression sauvegardée localement dans ton navigateur.
 </footer>
 
@@ -1406,7 +1406,7 @@ const QUIZZES = {
     {q:"Comment retourner directement au mode privilégié ?",o:["exit","end","quit","back"],a:1,
      e:"'end' (ou Ctrl+Z) ramène directement au mode privilégié depuis n'importe quel mode de configuration."},
     {q:"Quelle commande affiche l'état des interfaces ?",o:["show interfaces status","show ip interface brief","show version","show run"],a:1,
-     e:"'show ip interface brief' affiche l'état (up/down) et l'adresse IP de chaque interface — c'est la commande la plus utilisée."}
+     e:"'show ip interface brief' affiche l'état (up/down) et l'adresse IP de chaque interface - c'est la commande la plus utilisée."}
   ],
   vlan: [
     {q:"Qu'est-ce qu'un VLAN ?",o:["Un réseau logique isolé","Un type de câble","Un protocole de routage","Une adresse IP"],a:0,
@@ -1563,7 +1563,7 @@ function buildQuiz(containerId, questions, title){
     res.classList.toggle('fail', pct<80);
     res.querySelector('.big').textContent = pct + ' %';
     res.querySelector('.msg').innerHTML =
-      `${score} / ${qs.length} bonnes réponses — ${answered} question(s) traitée(s). ` +
+      `${score} / ${qs.length} bonnes réponses - ${answered} question(s) traitée(s). ` +
       (pct>=80 ? '<i class="fa-solid fa-champagne-glasses"></i> Excellent !' :
        pct>=50 ? 'Pas mal, révise les points manqués.' :
        'À retravailler : relis le cours.');
@@ -1579,15 +1579,15 @@ function buildQuiz(containerId, questions, title){
    INITIALISATION DES QUIZ
    ========================================================= */
 const QUIZ_TITLES = {
-  bases:"Quiz — Bases des réseaux",
-  ip:"Quiz — Adressage IPv4",
-  subnet:"Quiz — Subnetting",
-  ipv6:"Quiz — IPv6",
-  ios:"Quiz — IOS Cisco",
-  vlan:"Quiz — VLAN & Trunk",
-  routage:"Quiz — Routage",
-  services:"Quiz — Services réseau",
-  securite:"Quiz — Sécurité & ACL"
+  bases:"Quiz - Bases des réseaux",
+  ip:"Quiz - Adressage IPv4",
+  subnet:"Quiz - Subnetting",
+  ipv6:"Quiz - IPv6",
+  ios:"Quiz - IOS Cisco",
+  vlan:"Quiz - VLAN & Trunk",
+  routage:"Quiz - Routage",
+  services:"Quiz - Services réseau",
+  securite:"Quiz - Sécurité & ACL"
 };
 Object.keys(QUIZZES).forEach(k=>buildQuiz('quiz-'+k, QUIZZES[k], QUIZ_TITLES[k]));
 
@@ -1721,7 +1721,7 @@ function checkSubnet(){
   });
   const fb = document.getElementById('sub-feedback');
   if(ok === total){
-    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Parfait ! ${ok}/${total} — tout est juste.`;
+    fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Parfait ! ${ok}/${total} - tout est juste.`;
     fb.className = 'feedback ok';
   }else{
     fb.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${ok}/${total} correct. Les champs en rouge sont faux. Clique sur "Voir la solution" si besoin.`;
@@ -1768,7 +1768,7 @@ function startExam(){
   examLocked = false;
   examQuestions = shuffle(ALL_QUESTIONS).slice(0, EXAM_SIZE);
   let html = `<div class="quiz">
-    <div class="qhead"><h3><i class="fa-solid fa-file-pen"></i> Examen blanc — ${EXAM_SIZE} questions</h3>
+    <div class="qhead"><h3><i class="fa-solid fa-file-pen"></i> Examen blanc - ${EXAM_SIZE} questions</h3>
       <span class="qscore">Seuil : 80 %</span></div>`;
 
   examQuestions.forEach((item,i)=>{
@@ -1822,7 +1822,7 @@ function submitExam(){
   res.classList.toggle('fail', pct<80);
   res.querySelector('.big').textContent = pct + ' %';
   res.querySelector('.msg').innerHTML =
-    `${score} / ${examQuestions.length} — ` +
+    `${score} / ${examQuestions.length} - ` +
     (pct>=80 ? '<i class="fa-solid fa-champagne-glasses"></i> Réussi ! Tu es prêt.' :
      pct>=60 ? 'Presque. Retravaille les modules faibles.' :
      'Continue à réviser, tu progresses.');
